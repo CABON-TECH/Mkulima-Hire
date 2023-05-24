@@ -4,5 +4,6 @@ const farmerController = require('../controllers/farmerController');
 
 
 router.get('/', farmerController.getAllFarmers);
+router.post('/', farmerController.createFarmer);
 
 module.exports = router;
