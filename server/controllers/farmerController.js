@@ -31,10 +31,25 @@ const getAllFarmers = async (req, res) => {
     }
   };
 
+  // Get a single farmer by ID
+const getFarmerById = async (req, res) => {
+    try {
+      const farmer = await Farmer.findById(req.params.id);
+      if (!farmer) {
+        return res.status(404).json({ error: 'Farmer not found' });
+      }
+      res.json(farmer);
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+
 
 
 
     module.exports = {
         getAllFarmers,
         createFarmer,
+        getFarmerById
     }
