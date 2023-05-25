@@ -25,9 +25,23 @@ const createJob = async (req, res, next) => {
     }
 };
 
+// get a job by id
+const getJobById = async (req, res, next) => {
+    try {
+        const job = await Job.findById(req.params.id);
+        res.status(200).json({
+            success: true,
+            data: job
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 module.exports = {
     getAllJobs,
-    createJob
+    createJob,
+    getJobById
 };
 
 
