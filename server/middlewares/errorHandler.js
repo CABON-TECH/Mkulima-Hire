@@ -1,12 +1,9 @@
 const errorHandler = (err, req, res, next) => {
-    console.log(err.stack);
-
-    if (err.name === 'ValidationError') {
-        return res.status(400).json({ error: err.message });
-      }
-
-
-    return res.status(500).json({ error: 'Internal Server Error' });
-    };
+    console.log(err.stack.red);
+    res.status(500).json({
+        success: false,
+        error: err.message
+    });
+}
 
 module.exports = errorHandler;

@@ -6,6 +6,7 @@ const port = process.env.PORT || 3000;
 const connectDB = require('./config/db');
 const farmerRoute = require('./routes/farmerRoute');
 const workerRoute = require('./routes/workerRoute');
+const jobRoute = require('./routes/jobRoute');
 const errorHandler = require('./middlewares/errorHandler');
 
 
@@ -22,6 +23,7 @@ app.use(errorHandler);
 
 app.use('/api/farmers', farmerRoute);
 app.use('/api/workers', workerRoute);
+app.use('/api/jobs', jobRoute);
 
 
 
