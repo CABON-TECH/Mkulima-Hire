@@ -3,5 +3,8 @@ const ratingController = require('../controllers/ratingController');
 
 router.get('/', ratingController.getAllRatings);
 router.post('/', ratingController.createRating);
+router.get('/farmer/:id', ratingController.getFarmerRatings);
+router.get('/worker/:id', ratingController.getWorkerRatings);
+
 
 module.exports = router;
