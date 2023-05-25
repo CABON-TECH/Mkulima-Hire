@@ -22,8 +22,9 @@ const jobSchema = new mongoose.Schema({
         required: [true, 'Please enter a state']
     },
     phone: {
-        type: Number,
-        required: [true, 'Please enter a phone number']
+        type: String,
+        required: [true, 'Please enter a phone']
+        
     },
     email: {
         type: String,
