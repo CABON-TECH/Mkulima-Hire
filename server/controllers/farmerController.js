@@ -44,7 +44,7 @@ const getFarmerById = async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
-
+//updating farmer by ID
   const updateFarmer = async (req, res) => {
     try {
       const farmerId = req.params.id; // Get the farmer ID from the request parameters
