@@ -41,7 +41,24 @@ const createPayment = async (req, res) => {
     }
 }
 
+//get payment by id
+const getPaymentById = async (req, res) => {
+    try {
+        const payment = await Payment.findById(req.params.id);
+        res.status(200).json({
+            status: 'success',
+            payment
+        });
+    } catch (err) {
+        res.status(400).json({
+            status: 'fail',
+            message: err.message
+        });
+    }
+}
+
 module.exports = {
     getAllPayments,
-    createPayment
+    createPayment,
+    getPaymentById
 }
