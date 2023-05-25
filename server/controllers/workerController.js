@@ -51,6 +51,33 @@ const getWorkerById = async (req, res) => {
     }
 };
 
+//update a worker by ID
+const updateWorkerById = async (req, res) => {
+    try {
+        const { name, email, age, location, skills, experience, rating, salary, contact } = req.body;
+
+        const worker = await Worker.findById(req.params.id);
+
+        if (!worker) {
+            return res.status(404).json({ error: 'Worker not found' });
+        }
+
+        worker.name = name;
+        worker.email = email;
+        worker.age = age;
+
+        await worker.save();
+
+        res.json(worker);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+
+
 
 
 
@@ -60,7 +87,8 @@ const getWorkerById = async (req, res) => {
 module.exports = {
         getAllWorkers,
         createWorker,
-        getWorkerById
+        getWorkerById,
+        updateWorkerById
     }
 
 
