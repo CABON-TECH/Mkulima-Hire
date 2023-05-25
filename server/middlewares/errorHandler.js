@@ -1,5 +1,5 @@
 const errorHandler = (err, req, res, next) => {
-    console.log(error.stack);
+    console.log(err.stack);
 
     if (err.name === 'ValidationError') {
         return res.status(400).json({ error: err.message });
