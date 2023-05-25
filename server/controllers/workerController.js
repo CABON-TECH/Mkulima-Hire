@@ -37,13 +37,30 @@ const createWorker = async (req, res) => {
     }
 }
 
+//get a single worker by ID
+const getWorkerById = async (req, res) => {
+    try {
+        const worker = await Worker.findById(req.params.id);
+        if (!worker) {
+            return res.status(404).json({ error: 'Worker not found' });
+        }
+        res.json(worker);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+
+
 
 
     
     
 module.exports = {
         getAllWorkers,
-        createWorker
+        createWorker,
+        getWorkerById
     }
 
 
