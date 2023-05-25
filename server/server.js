@@ -8,6 +8,7 @@ const farmerRoute = require('./routes/farmerRoute');
 const workerRoute = require('./routes/workerRoute');
 const jobRoute = require('./routes/jobRoute');
 const paymentRoute = require('./routes/paymentRoute');
+const ratingRoute = require('./routes/ratingRoute');
 const errorHandler = require('./middlewares/errorHandler');
 
 
@@ -26,6 +27,7 @@ app.use('/api/farmers', farmerRoute);
 app.use('/api/workers', workerRoute);
 app.use('/api/jobs', jobRoute);
 app.use('/api/payments', paymentRoute);
+app.use('/api/ratings', ratingRoute);
 
 
 
