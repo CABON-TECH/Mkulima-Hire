@@ -13,7 +13,25 @@ const getAllRatings = asyncHandler(async (req, res) => {
 }
 );
 
+//create rating
+const createRating = asyncHandler(async (req, res) => {
+    const { user, onModel, rating, comment } = req.body;
+    const newRating = await Rating.create({
+        user,
+        onModel,
+        rating,
+        comment
+    });
+    res.status(201).json({
+        status: 'success',
+        newRating
+    });
+}
+);
+
+
 module.exports = {
-    getAllRatings
+    getAllRatings,
+    createRating
 }
 
