@@ -6,6 +6,7 @@ router.get('/', workerController.getAllWorkers);
 router.post('/', workerController.createWorker);
 router.get('/:id', workerController.getWorkerById);
 router.put('/:id', workerController.updateWorkerById);
+router.delete('/:id', workerController.deleteWorkerById);
 
 
 
