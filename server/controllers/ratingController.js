@@ -172,6 +172,25 @@ const updateRating = asyncHandler(async (req, res) => {
 }
 );
 
+//delete rating
+const deleteRating = asyncHandler(async (req, res) => {
+    const rating = await Rating.findByIdAndDelete(req.params.id);
+    if (rating) {
+        //await rating.remove();
+        res.status(200).json({
+            status: 'success',
+            message: 'Rating removed'
+        });
+    } else {
+        res.status(404);
+        throw new Error('Rating not found');
+    }
+}
+);
+
+
+
+
 
 
 
@@ -180,13 +199,14 @@ const updateRating = asyncHandler(async (req, res) => {
 module.exports = {
     getAllRatings,
     createRating,
-    getFarmerRatings,
-    getWorkerRatings,
-    getFarmerAverageRating,
-    getWorkerAverageRating,
-    getFarmerTotalRating,
-    getWorkerTotalRating,
+    //getFarmerRatings,
+    //getWorkerRatings,
+    //getFarmerAverageRating,
+    //getWorkerAverageRating,
+    //getFarmerTotalRating,
+    //getWorkerTotalRating,
     updateRating,
+    deleteRating
     
 }
 
