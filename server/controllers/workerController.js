@@ -25,7 +25,8 @@ const createWorker = async (req, res) => {
             experience,
             rating,
             salary,
-            contact
+            contact,
+            password
         });
 
         await worker.save();

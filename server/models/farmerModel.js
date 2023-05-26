@@ -24,6 +24,30 @@ const farmerSchema = new mongoose.Schema({
 
     },
 
+    phone: {
+        type: Number,
+        required: true,
+
+    },
+
+    password: {
+        type: String,
+        required: true,
+
+    },
+
+    rating: {
+        type: Number,
+        required: true,
+        default: 0
+
+    }
+
+
+
+    
+
+
 
 
 

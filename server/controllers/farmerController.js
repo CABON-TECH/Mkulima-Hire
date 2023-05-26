@@ -16,6 +16,8 @@ const getAllFarmers = async (req, res) => {
       const { location, age, email, name } = req.body;
   
       const farmer = new Farmer({
+        password,
+        phone,
         location,
         age,
         email,

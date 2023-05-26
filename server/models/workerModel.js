@@ -40,6 +40,8 @@ const workerSchema = new mongoose.Schema({
     rating: {
         type: Number,
         required: true,
+        default: 0
+        
 
     },
 
@@ -53,7 +55,16 @@ const workerSchema = new mongoose.Schema({
         type: Number,
         required: true,
 
+    },
+
+    password: {
+        type: String,
+        required: true,
+
     }
+
+
+
 
     
 
