@@ -1,10 +1,11 @@
 const router = require('express').Router();
 const paymentController = require('../controllers/paymentController');
+const { protect } = require('../middlewares/authMiddleware');
 
-router.get('/', paymentController.getAllPayments);
-router.post('/', paymentController.createPayment);
-router.get('/:id', paymentController.getPaymentById);
-router.put('/:id', paymentController.updatePayment);
-router.delete('/:id', paymentController.deletePayment);
+router.get('/', protect, paymentController.getAllPayments);
+router.post('/', protect, paymentController.createPayment);
+router.get('/:id', protect, paymentController.getPaymentById);
+router.put('/:id', protect, paymentController.updatePayment);
+router.delete('/:id', protect, paymentController.deletePayment);
 
 module.exports = router;
