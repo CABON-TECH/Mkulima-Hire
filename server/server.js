@@ -10,6 +10,7 @@ const jobRoute = require('./routes/jobRoute');
 const paymentRoute = require('./routes/paymentRoute');
 const ratingRoute = require('./routes/ratingRoute');
 const errorHandler = require('./middlewares/errorHandler');
+const userRoute = require('./routes/userRoute');
 
 
 
@@ -28,6 +29,7 @@ app.use('/api/workers', workerRoute);
 app.use('/api/jobs', jobRoute);
 app.use('/api/payments', paymentRoute);
 app.use('/api/ratings', ratingRoute);
+app.use('/api/users', userRoute);
 
 
 

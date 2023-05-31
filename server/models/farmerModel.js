@@ -30,11 +30,7 @@ const farmerSchema = new mongoose.Schema({
 
     },
 
-    password: {
-        type: String,
-        required: true,
-
-    },
+   
 
     rating: {
         type: Number,
