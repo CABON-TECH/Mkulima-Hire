@@ -59,6 +59,24 @@ const registerUser = asyncHandler(async (req, res) => {
         
     })
 
+    //get user data
+    const getUserProfile = asyncHandler(async (req, res) => {
+        res.status(200).json(req.user);
+    })
+
+
+
+    //generate token
+    const generateToken = (id) => {
+        return jwt.sign({ id }, process.env.JWT_SECRET, {
+            expiresIn: '30d',
+        })
+    }
+
+
+
+
+
 
 
 
@@ -72,5 +90,6 @@ const registerUser = asyncHandler(async (req, res) => {
 
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getUserProfile,
 }
