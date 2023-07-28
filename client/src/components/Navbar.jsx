@@ -57,7 +57,7 @@ function Navbar() {
               textDecoration: 'none',
             }}
           >
-            Farming App
+            Mkulima Hire
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
