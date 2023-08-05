@@ -3,6 +3,13 @@ const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
 
+
+//genrate token
+const generateToken = (id) => {
+    return jwt.sign({ id }, process.env.JWT_SECRET, {
+        expiresIn: '30d',
+    })
+}
 const registerUser = asyncHandler(async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -67,12 +74,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
 
 
-    //generate token
-    const generateToken = (id) => {
-        return jwt.sign({ id }, process.env.JWT_SECRET, {
-            expiresIn: '30d',
-        })
-    }
+    
 
 
 

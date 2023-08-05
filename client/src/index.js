@@ -3,10 +3,10 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
-import configureStore from './app/store';
+import {store} from './app/store';
 import { Provider } from 'react-redux';
 
-const store = configureStore();
+//const store = configureStore();
 
 const container = document.getElementById('root');
 const root = createRoot(container);

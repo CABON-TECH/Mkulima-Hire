@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import React from "react"
+import { ToastContainer } from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 import Footer from "./components/Footer"
 import Navbar from "./components/Navbar"
@@ -7,13 +9,13 @@ import Home from "./pages/Home"
 import Dashboard from "./pages/dashboard"
 import Login from "./pages/login"
 import Register from "./pages/register"
-import AuthMiddleware from "./utils/authMiddleware"
+
 
 
 
 function App() {
   return (
-
+    <>
     <Router>
      <div className="container">
       <Navbar />
@@ -23,7 +25,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         
-        <Route path="/dashboard" element={<AuthMiddleware><Dashboard /></AuthMiddleware>} />
+        <Route path="/dashboard" element={<Dashboard />} />
         
         
         
@@ -31,6 +33,8 @@ function App() {
       <Footer />
      </div>
     </Router>
+    <ToastContainer />
+    </>
   )
 }
 
