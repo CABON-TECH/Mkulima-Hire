@@ -2,7 +2,21 @@ import axios from "axios";
 
 const API_URL = "/api/users/";
 
-const register = async (username, email, password) => {
+interface RegisterResponse {
+  accessToken: string;
+  // Add other properties if needed
+}
+
+interface LoginResponse {
+  accessToken: string;
+  // Add other properties if needed
+}
+
+const register = async (
+  username: string,
+  email: string,
+  password: string
+): Promise<RegisterResponse> => {
   const response = await axios.post(API_URL + "register", {
     username,
     email,
@@ -11,12 +25,10 @@ const register = async (username, email, password) => {
   return response.data;
 };
 
-/*if (response.data.accessToken) {
-  localStorage.setItem('user', JSON.stringify(response.data));
-}*/
-
-//login user
-const login = async (username, password) => {
+const login = async (
+  username: string,
+  password: string
+): Promise<LoginResponse> => {
   const response = await axios.post(API_URL + "login", {
     username,
     password,
@@ -27,8 +39,7 @@ const login = async (username, password) => {
   return response.data;
 };
 
-//logout user
-const logout = () => {
+const logout = (): void => {
   localStorage.removeItem("user");
 };
 

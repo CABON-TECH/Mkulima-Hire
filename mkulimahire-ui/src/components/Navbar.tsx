@@ -13,7 +13,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 
 interface Props {
   window?: () => Window;
@@ -84,6 +84,8 @@ export default function DrawerAppBar(props: Props) {
   const container =
     window !== undefined ? () => window().document.body : undefined;
 
+  const location = useLocation();
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -128,35 +130,38 @@ export default function DrawerAppBar(props: Props) {
               </NavLink>
             ))}
           </Box>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
-            <Link to="/login">
-              <Button
-                sx={{
-                  color: "#2b2b2b",
-                  "&:hover": {
-                    backgroundColor: "#ffffff",
-                  },
-                }}
-              >
-                Log In
-              </Button>
-            </Link>
-            <Link to="/register">
-              <Button
-                sx={{
-                  color: "#ffff",
-                  background: "#74c116",
-                  px: 2,
-                  py: 1,
-                  "&:hover": {
-                    backgroundColor: "#74c116",
-                  },
-                }}
-              >
-                Get Started
-              </Button>
-            </Link>
-          </Box>
+          {location.pathname !== "/login" &&
+            location.pathname !== "/register" && (
+              <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
+                <Link to="/login">
+                  <Button
+                    sx={{
+                      color: "#2b2b2b",
+                      "&:hover": {
+                        backgroundColor: "#ffffff",
+                      },
+                    }}
+                  >
+                    Log In
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button
+                    sx={{
+                      color: "#ffff",
+                      background: "#74c116",
+                      px: 2,
+                      py: 1,
+                      "&:hover": {
+                        backgroundColor: "#74c116",
+                      },
+                    }}
+                  >
+                    Get Started
+                  </Button>
+                </Link>
+              </Box>
+            )}
         </Toolbar>
       </AppBar>
       <Box component="nav">

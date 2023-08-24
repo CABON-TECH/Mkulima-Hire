@@ -6,7 +6,7 @@ const About = () => {
   return (
     <>
       <Navbar />
-      <Box className="mx-10">
+      <Box className="mx-10 mb-20">
         <Typography fontWeight={600} fontSize="1.25rem" color="#74c116">
           Introduction
         </Typography>
