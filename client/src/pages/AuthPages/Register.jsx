@@ -72,10 +72,10 @@ const Register = () => {
       <div className="text-custom-black w-[99vw] flex flex-col justify-center mx-auto">
         <ToastContainer />
         <div className="flex justify-center gap-1 text-[#74c116]">
-          <p className="font-semibold text-3xl">MkuliHire</p>
+          <p className="font-semibold text-3xl">Mkulima-Hire</p>
         </div>
         <p className="text-3xl mx-auto font-semibold tracking-tight py-7">
-          Welcome to MkuliaHire
+          Welcome to Mkulima-Hire
         </p>
         <p className="mx-auto">Please, fill in your details</p>
 
