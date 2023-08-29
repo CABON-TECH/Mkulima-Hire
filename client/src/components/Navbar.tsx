@@ -113,7 +113,7 @@ export default function DrawerAppBar(props: Props) {
             component="div"
             sx={{ display: { xs: "none", sm: "block" } }}
           >
-            Mkuli
+            Mkulima-Hire
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             {navItems.map((item) => (

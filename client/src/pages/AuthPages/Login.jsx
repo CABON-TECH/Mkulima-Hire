@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { login } from "../../features/auth/authSlice";
 
 const LogInSchema = Yup.object().shape({
-  userName: Yup.string().required("Username is required"),
+  email: Yup.string().required("Email is required"),
   loginPassword: Yup.string().required("Password is required"),
 });
 
@@ -39,13 +39,13 @@ const LogIn = () => {
 
   const signIn = async (values) => {
     // Handle log in
-    const { userName, loginPassword } = values;
+    const { email, loginPassword } = values;
     setIsButtonDisabled(true);
-    console.log("inner:", userName, loginPassword);
+    console.log("inner:", email, loginPassword);
     try {
       const response = await dispatch(
         login({
-          username: userName,
+          email: email,
           password: loginPassword,
         })
       );
@@ -75,7 +75,7 @@ const LogIn = () => {
 
         <Formik
           initialValues={{
-            userName: "",
+            email: "",
             loginPassword: "",
           }}
           validationSchema={LogInSchema}
@@ -84,17 +84,17 @@ const LogIn = () => {
           {(formik) => (
             <Form className="flex flex-col mx-auto">
               <div className="flex flex-col mx-auto">
-                <label htmlFor="userName" className="text-sm pb-1 mt-5">
-                  Username
+                <label htmlFor="email" className="text-sm pb-1 mt-5">
+                  Email
                 </label>
                 <Field
-                  name="userName"
+                  name="email"
                   className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-                  placeholder="Username"
+                  placeholder="email"
                 />
 
                 <ErrorMessage
-                  name="userName"
+                  name="email"
                   component="div"
                   className="text-red-700 text-sm"
                 />

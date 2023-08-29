@@ -19,7 +19,7 @@ export default function Footer() {
         <Typography variant="body2" color="text.secondary" align="center">
           {"Copyright © "}
           <Link color="inherit" href="https://github.com/CABON-TECH">
-            Boniface Mgboho
+            Boniface Mbogho
           </Link>
           {" and "}
           <Link color="inherit" href="https://segunlawal.dev">
