@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 
 const Dashboard = () => {
   const user = useSelector((state) => state?.auth.user);
-  // console.log(user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

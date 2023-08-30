@@ -1,7 +1,11 @@
 import { Typography, Button, Box } from "@mui/material";
 import farm_one from "../../assets/farm-one.jpg";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
+  const user = useSelector((state) => state?.auth.user);
+
   return (
     <Box
       sx={{
@@ -37,19 +41,39 @@ const Hero = () => {
           <br />
           workers for their farms
         </Typography>
-        <Button
-          sx={{
-            color: "#ffff",
-            background: "#74c116",
-            px: 2,
-            py: 1,
-            "&:hover": {
-              backgroundColor: "#74c116",
-            },
-          }}
-        >
-          Get Started
-        </Button>
+        {user ? (
+          <Link to="/dashboard">
+            <Button
+              sx={{
+                color: "#ffff",
+                background: "#74c116",
+                px: 2,
+                py: 1,
+                "&:hover": {
+                  backgroundColor: "#74c116",
+                },
+              }}
+            >
+              Dashboard
+            </Button>
+          </Link>
+        ) : (
+          <Link to="/register">
+            <Button
+              sx={{
+                color: "#ffff",
+                background: "#74c116",
+                px: 2,
+                py: 1,
+                "&:hover": {
+                  backgroundColor: "#74c116",
+                },
+              }}
+            >
+              Get Started
+            </Button>
+          </Link>
+        )}
       </Box>
 
       <Box className="my-auto flex justify-center md:mt-0 mt-4">

@@ -14,10 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, NavLink, useLocation } from "react-router-dom";
-
-interface Props {
-  window?: () => Window;
-}
+import { useSelector } from "react-redux";
 
 const drawerWidth = 240;
 const navItems = [
@@ -26,9 +23,11 @@ const navItems = [
   { name: "Contact", route: "/contact" },
 ];
 
-export default function DrawerAppBar(props: Props) {
+export default function DrawerAppBar(props) {
   const { window } = props;
   const [mobileOpen, setMobileOpen] = React.useState(false);
+
+  const user = useSelector((state) => state?.auth.user);
 
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
@@ -50,33 +49,58 @@ export default function DrawerAppBar(props: Props) {
             </ListItem>
           </Link>
         ))}
-        <Link to="/login" className="mx-auto">
-          <ListItem disablePadding>
-            <ListItemButton sx={{ textAlign: "center" }}>
-              <ListItemText sx={{ color: "#2b2b2b" }} primary="Log In" />
-            </ListItemButton>
-          </ListItem>
-        </Link>
-        <Link to="/register" className="mx-auto">
-          <ListItem disablePadding>
-            <ListItemButton
-              sx={{
-                textAlign: "center",
-              }}
-            >
-              <ListItemText
+        {!user ? (
+          <Box>
+            <Link to="/login" className="mx-auto">
+              <ListItem disablePadding>
+                <ListItemButton sx={{ textAlign: "center" }}>
+                  <ListItemText sx={{ color: "#2b2b2b" }} primary="Log In" />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+            <Link to="/register" className="mx-auto">
+              <ListItem disablePadding>
+                <ListItemButton
+                  sx={{
+                    textAlign: "center",
+                  }}
+                >
+                  <ListItemText
+                    sx={{
+                      borderRadius: "4px",
+                      color: "#ffff",
+                      background: "#74c116",
+                      px: 2,
+                      py: 1,
+                    }}
+                    primary="Get Started"
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+          </Box>
+        ) : (
+          <Link to="/dashboard" className="mx-auto">
+            <ListItem disablePadding>
+              <ListItemButton
                 sx={{
-                  borderRadius: "4px",
-                  color: "#ffff",
-                  background: "#74c116",
-                  px: 2,
-                  py: 1,
+                  textAlign: "center",
                 }}
-                primary="Get Started"
-              />
-            </ListItemButton>
-          </ListItem>
-        </Link>
+              >
+                <ListItemText
+                  sx={{
+                    borderRadius: "4px",
+                    color: "#ffff",
+                    background: "#74c116",
+                    px: 2,
+                    py: 1,
+                  }}
+                  primary="Dashboard"
+                />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        )}
       </List>
     </Box>
   );
@@ -133,33 +157,58 @@ export default function DrawerAppBar(props: Props) {
           {location.pathname !== "/login" &&
             location.pathname !== "/register" && (
               <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
-                <Link to="/login">
-                  <Button
-                    sx={{
-                      color: "#2b2b2b",
-                      "&:hover": {
-                        backgroundColor: "#ffffff",
-                      },
-                    }}
-                  >
-                    Log In
-                  </Button>
-                </Link>
-                <Link to="/register">
-                  <Button
-                    sx={{
-                      color: "#ffff",
-                      background: "#74c116",
-                      px: 2,
-                      py: 1,
-                      "&:hover": {
-                        backgroundColor: "#74c116",
-                      },
-                    }}
-                  >
-                    Get Started
-                  </Button>
-                </Link>
+                {user ? (
+                  <Link to="/dashboard">
+                    <Button
+                      sx={{
+                        color: "#ffff",
+                        background: "#74c116",
+                        px: 2,
+                        py: 1,
+                        "&:hover": {
+                          backgroundColor: "#74c116",
+                        },
+                      }}
+                    >
+                      Dashboard
+                    </Button>
+                  </Link>
+                ) : (
+                  <>
+                    {location.pathname !== "/login" &&
+                      location.pathname !== "/register" && (
+                        <>
+                          <Link to="/login">
+                            <Button
+                              sx={{
+                                color: "#2b2b2b",
+                                "&:hover": {
+                                  backgroundColor: "#ffffff",
+                                },
+                              }}
+                            >
+                              Log In
+                            </Button>
+                          </Link>
+                          <Link to="/register">
+                            <Button
+                              sx={{
+                                color: "#ffff",
+                                background: "#74c116",
+                                px: 2,
+                                py: 1,
+                                "&:hover": {
+                                  backgroundColor: "#74c116",
+                                },
+                              }}
+                            >
+                              Get Started
+                            </Button>
+                          </Link>
+                        </>
+                      )}
+                  </>
+                )}
               </Box>
             )}
         </Toolbar>
