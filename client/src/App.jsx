@@ -7,6 +7,7 @@ import Login from "./pages/AuthPages/Login";
 import Register from "./pages/AuthPages/Register";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ErrorPage from "./pages/ErrorPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import PrivateRoute from "./features/auth/PrivateRoute";
 import AuthRoute from "./features/auth/AuthRoute";
@@ -42,6 +43,7 @@ function App() {
                 <Route path="/dashboard" element={<Dashboard />} />
               </Route>
             </Route>
+            <Route path="*" element={<ErrorPage />} />
           </Routes>
         </Router>
         <ToastContainer />
