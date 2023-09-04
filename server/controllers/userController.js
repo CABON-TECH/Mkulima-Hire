@@ -42,6 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
             _id: user._id,
             name: user.name,
             email: user.email,
+            role: user.role,
             token: generateToken(user._id),
         });
     } else{
