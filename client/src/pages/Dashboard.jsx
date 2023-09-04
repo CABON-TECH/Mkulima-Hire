@@ -1,14 +1,25 @@
-// import { Button } from "@mui/material";
-// import { useSelector } from "react-redux";
-// import { useNavigate } from "react-router-dom";
-import { useTabContext } from "../features/hooks/TabContext";
+//import { Button } from "@mui/material";
+//import { useSelector } from "react-redux";
+//import { useDispatch } from "react-redux";
+//import { logout } from "../features/auth/authSlice";
+//import { ToastContainer, toast } from "react-toastify";
+//import { useNavigate } from "react-router-dom";
+import {useTabContext} from "../features/hooks/TabContext";
 import Overview from "./dashboard/Overview";
 import Farmer from "./dashboard/Farmer";
 import Worker from "./dashboard/Worker";
 
 const Dashboard = () => {
-  // const user = useSelector((state) => state?.auth.user);
-  // const navigate = useNavigate();
+  //const user = useSelector((state) => state?.auth.user);
+  // console.log(user);
+  //const dispatch = useDispatch();
+  //const navigate = useNavigate();
+
+  /*const handleLogOut = () => {
+    dispatch(logout());
+    navigate("/");
+    toast.success("Log Out successful");
+  };*/
   const { activeTab } = useTabContext();
 
   const tabComponents = {
@@ -19,21 +30,7 @@ const Dashboard = () => {
 
   const Component = tabComponents[activeTab];
 
-  // const handleLogOut = () => {
-  //   dispatch(logout());
-  //   navigate("/");
-  //   toast.success("Log Out successful");
-  // };
-
-  // return (
-  //   <div>
-  //     <ToastContainer />
-  //     Dashboard
-  //     <p>{user?.name}</p>
-  //     <Button onClick={handleLogOut}>Log Out</Button>
-  //   </div>
-  // );
-  return <Component />;
+  return <Component />
 };
 
 export default Dashboard;
