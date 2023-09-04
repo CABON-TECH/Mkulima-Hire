@@ -56,12 +56,16 @@ const registerUser = asyncHandler(async (req, res) => {
 
         const { email, password } = req.body;
         const user = await User.findOne({ email });
+        const selectedRole = req.body.role;
+        const role = selectedRole === 'farmer' ? 'farmer' : 'worker';
+
 
         if (user && (await bcrypt.compare(password, user.password))) {
             res.json({
               _id: user.id,
               name: user.name,
               email: user.email,
+              role: user.role,
               token: generateToken(user._id),
             })
           } else {
