@@ -1,10 +1,10 @@
 const { constants } = require('buffer');
-const Worker = require('../models/workerModel');
-
+//const Worker = require('../models/workerModel');
+const User = require('../models/userModel');
 const getAllWorkers = async (req, res) => {
 
     try {
-        const workers = await Worker.find();
+        const workers = await User.find({ role: 'worker'});
         res.json(workers);
     } catch (error) {
         console.error(error);
@@ -41,7 +41,7 @@ const createWorker = async (req, res) => {
 //get a single worker by ID
 const getWorkerById = async (req, res) => {
     try {
-        const worker = await Worker.findById(req.params.id);
+        const worker = await User.findById({role: 'worker'});
         if (!worker) {
             return res.status(404).json({ error: 'Worker not found' });
         }
