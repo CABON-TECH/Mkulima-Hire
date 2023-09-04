@@ -42,7 +42,11 @@ const Hero = () => {
           workers for their farms
         </Typography>
         {user ? (
-          <Link to="/dashboard">
+          <Link
+            to={`${
+              user.role === "farmer" ? "/farmer-dashboard" : "/worker-dashboard"
+            }`}
+          >
             <Button
               sx={{
                 color: "#ffff",
