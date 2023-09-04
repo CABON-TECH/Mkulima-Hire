@@ -14,7 +14,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/auth/authSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 const drawerWidth = 240;
 const navItems = [
@@ -80,31 +82,49 @@ export default function DrawerAppBar(props) {
             </Link>
           </Box>
         ) : (
-          <Link
-            to={`${
-              user.role === "farmer" ? "/farmer-dashboard" : "/worker-dashboard"
-            }`}
-            className="mx-auto"
-          >
-            <ListItem disablePadding>
-              <ListItemButton
-                sx={{
-                  textAlign: "center",
-                }}
-              >
-                <ListItemText
+          <Box>
+            <Link
+              to={`${
+                user.role === "farmer"
+                  ? "/farmer-dashboard"
+                  : "/worker-dashboard"
+              }`}
+              className="mx-auto"
+            >
+              <ListItem disablePadding>
+                <ListItemButton
                   sx={{
-                    borderRadius: "4px",
-                    color: "#ffff",
-                    background: "#74c116",
-                    px: 2,
-                    py: 1,
+                    textAlign: "center",
                   }}
-                  primary="Dashboard"
-                />
-              </ListItemButton>
-            </ListItem>
-          </Link>
+                >
+                  <ListItemText
+                    sx={{
+                      borderRadius: "4px",
+                      color: "#ffff",
+                      background: "#74c116",
+                      px: 2,
+                      py: 1,
+                    }}
+                    primary="Dashboard"
+                  />
+                </ListItemButton>
+              </ListItem>
+            </Link>
+
+            <Button
+              sx={{
+                color: "#282828",
+                px: 2,
+                py: 1,
+                "&:hover": {
+                  backgroundColor: "#ffffff",
+                },
+              }}
+              onClick={() => handleLogOut()}
+            >
+              Logout
+            </Button>
+          </Box>
         )}
       </List>
     </Box>
@@ -114,9 +134,16 @@ export default function DrawerAppBar(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   const location = useLocation();
+  const dispatch = useDispatch();
+
+  const handleLogOut = () => {
+    dispatch(logout());
+    toast.success("Log Out successful");
+  };
 
   return (
     <Box sx={{ display: "flex" }}>
+      <ToastContainer />
       <CssBaseline />
       <AppBar component="nav" elevation={0} sx={{ background: "#fff" }}>
         <Toolbar
@@ -163,27 +190,42 @@ export default function DrawerAppBar(props) {
             location.pathname !== "/register" && (
               <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
                 {user ? (
-                  <Link
-                    to={`${
-                      user.role === "farmer"
-                        ? "/farmer-dashboard"
-                        : "/worker-dashboard"
-                    }`}
-                  >
+                  <Box className="flex gap-x-5 items-center">
                     <Button
                       sx={{
-                        color: "#ffff",
-                        background: "#74c116",
+                        color: "#282828",
                         px: 2,
                         py: 1,
                         "&:hover": {
-                          backgroundColor: "#74c116",
+                          backgroundColor: "#ffffff",
                         },
                       }}
+                      onClick={() => handleLogOut()}
                     >
-                      Dashboard
+                      Logout
                     </Button>
-                  </Link>
+                    <Link
+                      to={`${
+                        user.role === "farmer"
+                          ? "/farmer-dashboard"
+                          : "/worker-dashboard"
+                      }`}
+                    >
+                      <Button
+                        sx={{
+                          color: "#ffff",
+                          background: "#74c116",
+                          px: 2,
+                          py: 1,
+                          "&:hover": {
+                            backgroundColor: "#74c116",
+                          },
+                        }}
+                      >
+                        Dashboard
+                      </Button>
+                    </Link>
+                  </Box>
                 ) : (
                   <>
                     {location.pathname !== "/login" &&
