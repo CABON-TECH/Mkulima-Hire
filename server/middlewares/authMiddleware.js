@@ -14,6 +14,17 @@ const protect = asyncHandler(async (req, res, next) => {
 
             req.user = await User.findById(decoded.id).select('-password');
 
+            if (!req.user) {
+                res.status(401);
+                throw new Error('Not authorized, user not found');
+            }
+
+            // Check the user's role here
+            if (req.user.role !== 'farmer' && req.user.role !== 'worker') {
+                res.status(403);
+                throw new Error('Access forbidden');
+            }
+
             next();
 
         } catch(error){

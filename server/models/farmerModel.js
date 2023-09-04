@@ -37,8 +37,12 @@ const farmerSchema = new mongoose.Schema({
         required: true,
         default: 0
 
-    }
+    },
+    password : {
+        type: String,
+        required: true,
 
+    }
 
 
     

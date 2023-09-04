@@ -30,7 +30,7 @@ const DashboardSidebar = () => {
     <>
       <div className="hidden sm:flex fixed bg-[#74c116] text-[#ffffff] min-h-screen w-48 flex-col px-10">
         <div className="flex items-center gap-2 pt-10 pb-20 font-bold">
-          <Link to="/">Mkuli-Hire</Link>
+          <Link to="/">Mkulima-Hire</Link>
         </div>
         {links.map(({ id, path, icon }) => {
           const Icon = icon;
