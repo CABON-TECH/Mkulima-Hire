@@ -9,11 +9,14 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import ErrorPage from "./pages/ErrorPage";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import PrivateRoute from "./features/auth/PrivateRoute";
 import AuthRoute from "./features/auth/AuthRoute";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
 import { ActiveTabProvider } from "../src/features/hooks/TabContext";
+import FarmerDashboard from "./pages/FarmerDashboard";
+import FarmerDashboardLayout from "./components/FarmerDashboard/FarmerDashboardLayout";
+import FarmerPrivateRoute from "./features/auth/FarmerPrivateRoute";
+import WorkerPrivateRoute from "./features/auth/WorkerPrivateRoute";
 
 const theme = createTheme({
   typography: {
@@ -38,9 +41,18 @@ function App() {
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
             </Route>
-            <Route path="" element={<PrivateRoute />}>
-              <Route path="/dashboard" element={<DashboardLayout />}>
-                <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="" element={<WorkerPrivateRoute />}>
+              <Route path="/worker-dashboard" element={<DashboardLayout />}>
+                <Route path="/worker-dashboard" element={<Dashboard />} />
+              </Route>
+            </Route>
+
+            <Route path="" element={<FarmerPrivateRoute />}>
+              <Route
+                path="/farmer-dashboard"
+                element={<FarmerDashboardLayout />}
+              >
+                <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
               </Route>
             </Route>
             <Route path="*" element={<ErrorPage />} />

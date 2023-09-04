@@ -52,7 +52,13 @@ const LogIn = () => {
       toast.success("Log In successful");
       // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify(response.payload));
-      navigate("/dashboard");
+
+      if (response.payload.role == "worker") {
+        navigate("/worker-dashboard");
+      }
+      if (response.payload.role == "farmer") {
+        navigate("/farmer-dashboard");
+      }
       setIsButtonDisabled(false);
     } catch (error) {
       toast.error("Error signing up");

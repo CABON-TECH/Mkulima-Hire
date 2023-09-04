@@ -80,7 +80,12 @@ export default function DrawerAppBar(props) {
             </Link>
           </Box>
         ) : (
-          <Link to="/dashboard" className="mx-auto">
+          <Link
+            to={`${
+              user.role === "farmer" ? "/farmer-dashboard" : "/worker-dashboard"
+            }`}
+            className="mx-auto"
+          >
             <ListItem disablePadding>
               <ListItemButton
                 sx={{
@@ -158,7 +163,13 @@ export default function DrawerAppBar(props) {
             location.pathname !== "/register" && (
               <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "1rem" }}>
                 {user ? (
-                  <Link to="/dashboard">
+                  <Link
+                    to={`${
+                      user.role === "farmer"
+                        ? "/farmer-dashboard"
+                        : "/worker-dashboard"
+                    }`}
+                  >
                     <Button
                       sx={{
                         color: "#ffff",

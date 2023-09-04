@@ -14,6 +14,7 @@ import Navbar from "../../components/Navbar";
 import { useDispatch } from "react-redux";
 import { register } from "../../features/auth/authSlice";
 import { useNavigate } from "react-router-dom";
+import Dropdown from "../../components/Dropdown";
 
 const SignUpSchema = Yup.object().shape({
   signUpEmail: Yup.string()
@@ -26,6 +27,7 @@ const SignUpSchema = Yup.object().shape({
 const Register = () => {
   const [showPassword, setShowPassword] = useState("password");
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [roleSelected, setRoleSelected] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -52,13 +54,21 @@ const Register = () => {
           username: userName,
           email: signUpEmail,
           password: signUpPassword,
+          role: roleSelected,
         })
       );
       console.log("Registration successful:", response.payload);
       toast.success("Registration successful");
       // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify(response.payload));
-      navigate("/dashboard");
+
+      if (response.payload.role == "worker") {
+        navigate("/worker-dashboard");
+      }
+      if (response.payload.role == "farmer") {
+        navigate("/farmer-dashboard");
+      }
+
       setIsButtonDisabled(false);
     } catch (error) {
       toast.error(error.message);
@@ -69,7 +79,7 @@ const Register = () => {
   return (
     <>
       <Navbar />
-      <div className="text-custom-black w-[99vw] flex flex-col justify-center mx-auto">
+      <div className="text-custom-black w-[99vw] flex flex-col justify-center mx-auto overflow-x-hidden">
         <ToastContainer />
         <div className="flex justify-center gap-1 text-[#74c116]">
           <p className="font-semibold text-3xl">Mkulima-Hire</p>
@@ -149,8 +159,30 @@ const Register = () => {
                 />
               </div>
 
+              <div className="mt-5">
+                <label htmlFor="role" className="text-sm pb-1">
+                  Role
+                </label>
+                <Dropdown
+                  name="role"
+                  width={100}
+                  placeholderText="Select a role"
+                  options={[
+                    { label: "Farmer", value: "farmer" },
+                    { label: "Worker", value: "worker" },
+                  ]}
+                  value={roleSelected}
+                  onChange={(e) => setRoleSelected(e.target.value)}
+                />
+              </div>
+
               <button
-                disabled={!formik.isValid || !formik.dirty || isButtonDisabled}
+                disabled={
+                  !formik.isValid ||
+                  !formik.dirty ||
+                  isButtonDisabled ||
+                  roleSelected == ""
+                }
                 type="submit"
                 className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 bg-custom-blue sm:w-[30rem] w-80 mx-auto rounded-lg mt-5 disabled:opacity-50 transition-all duration-300"
               >
