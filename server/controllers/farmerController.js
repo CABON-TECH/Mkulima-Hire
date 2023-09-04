@@ -35,7 +35,7 @@ const createFarmer = async (req, res) => {
 
 const getFarmerById = async (req, res) => {
   try {
-    const farmers = await User.find({ role: 'farmer' });
+    const farmers = await User.findById(req.params.id);
     res.status(200).json(farmers);
 } catch (error) {
     console.error(error);

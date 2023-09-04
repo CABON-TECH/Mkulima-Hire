@@ -41,7 +41,7 @@ const createWorker = async (req, res) => {
 //get a single worker by ID
 const getWorkerById = async (req, res) => {
     try {
-        const worker = await User.findById({role: 'worker'});
+        const worker = await User.findById(req.params.id);
         if (!worker) {
             return res.status(404).json({ error: 'Worker not found' });
         }
