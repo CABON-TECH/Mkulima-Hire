@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { GiFarmer } from "react-icons/gi";
-// import { FiSettings } from "react-icons/fi";
+// import { GiFarmer } from "react-icons/gi";
+import { FiSettings } from "react-icons/fi";
 import { ImMan } from "react-icons/im";
 import { useTabContext } from "../../features/hooks/TabContext";
 import Logout from "../Logout";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const links = [
   { id: 1, path: "Overview", icon: AiOutlineDashboard },
-  { id: 2, path: "Farmer", icon: ImMan },
-  { id: 3, path: "Worker", icon: GiFarmer },
+  { id: 2, path: "Jobs", icon: ImMan },
+  { id: 3, path: "Settings", icon: FiSettings },
 ];
 
 // links For mobile
@@ -18,12 +18,23 @@ const mobileOrder = [1, 0, 2];
 const mobileLinks = mobileOrder.map((i) => links[i]);
 
 const DashboardSidebar = () => {
-  const { setActiveTab } = useTabContext();
+  const { setFarmerActiveTab } = useTabContext();
   const [selectedLink, setSelectedLink] = useState("Overview");
 
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname === "/farmer-dashboard/create-job") {
+      setSelectedLink("Jobs");
+    }
+  }, [location.pathname]);
+
+  const navigate = useNavigate();
+
   const handleTabClick = (tab) => {
-    setActiveTab(tab);
+    setFarmerActiveTab(tab);
     setSelectedLink(tab);
+    navigate("/farmer-dashboard");
   };
 
   return (
@@ -44,7 +55,7 @@ const DashboardSidebar = () => {
               onClick={() => handleTabClick(path)}
             >
               <Icon className="my-auto" />
-              <p>{path}</p>
+              <p className="whitespace-nowrap">{path}</p>
             </li>
           );
         })}

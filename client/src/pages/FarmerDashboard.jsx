@@ -1,18 +1,18 @@
 import { useTabContext } from "../features/hooks/TabContext";
 import Overview from "./FarmerDashboard/Overview";
-import Farmer from "./FarmerDashboard/Farmer";
-import Worker from "./FarmerDashboard/Worker";
+import Jobs from "./FarmerDashboard/Jobs/Jobs";
+import Settings from "./FarmerDashboard/Settings";
 
 const FarmerDashboard = () => {
-  const { activeTab } = useTabContext();
+  const { farmerActiveTab } = useTabContext();
 
   const tabComponents = {
     Overview,
-    Farmer,
-    Worker,
+    Jobs,
+    Settings,
   };
 
-  const Component = tabComponents[activeTab];
+  const Component = tabComponents[farmerActiveTab];
 
   return <Component />;
 };

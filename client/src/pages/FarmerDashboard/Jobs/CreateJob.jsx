@@ -1,0 +1,230 @@
+import React, { useState } from "react";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { useSelector } from "react-redux";
+import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+import Avatar from "react-avatar";
+
+const API_URL = "http://localhost:5000/api/";
+
+const createJobSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Invalid email")
+    .required("Please enter your email address"),
+  phone: Yup.string().required("Phone Number is required"),
+  city: Yup.string().required("City name is required"),
+  state: Yup.string().required("State name is required"),
+  jobTitle: Yup.string().required("Job Title is required"),
+  rate: Yup.number().required("Hourly Rate is required"),
+  description: Yup.string().required("Please provide a job description"),
+});
+
+const CreateJob = () => {
+  const user = useSelector((state) => state?.auth.user);
+
+  // console.log(user);
+
+  const [email, setEmail] = useState(user?.email);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
+  const createJob = async (values) => {
+    setIsButtonDisabled(true);
+    try {
+      const config = {
+        headers: { Authorization: `Bearer ${user?.token}` },
+      };
+      await axios.post(
+        API_URL + "jobs",
+        {
+          title: values.jobTitle,
+          description: values.description,
+          city: values.city,
+          state: values.state,
+          phone: values.phone,
+          email: email,
+          pay: values.rate,
+          date: Date(),
+          user: user?._id,
+        },
+        config
+      );
+      setIsButtonDisabled(false);
+      toast.success("Job Posted successfully");
+    } catch (error) {
+      toast.error("Error signing up");
+      setIsButtonDisabled(false);
+    }
+  };
+  return (
+    <div className="sm:pl-60 pl-2 py-5 pb-24 w-full pr-2 sm:pr-10">
+      <div className="flex justify-between items-center">
+        <p className="text-[#74c116] text-2xl">Hello, {user.name}</p>
+        <Avatar name={user.name} size="40" round={true} />
+      </div>
+      <ToastContainer />
+      <h2 className="text-[#74c116] text-xl font-semibold">
+        Create a Job Opening
+      </h2>
+      <Formik
+        initialValues={{
+          email: email,
+          phone: "",
+          city: "",
+          state: "",
+          jobTitle: "",
+          rate: "",
+          description: "",
+        }}
+        validationSchema={createJobSchema}
+        onSubmit={createJob}
+      >
+        {(formik) => (
+          <Form className="flex flex-col">
+            <section className="grid sm:grid-cols-2 grid-cols-1 gap-5">
+              <div className="flex flex-col">
+                <label htmlFor="email" className="text-sm pb-1 mt-5">
+                  Email
+                </label>
+                <Field
+                  name="email"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  value={email}
+                />
+
+                <ErrorMessage
+                  name="email"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="phone" className="text-sm pb-1 mt-5">
+                  Phone Number
+                </label>
+                <Field
+                  name="phone"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Phone Number"
+                  type="tel"
+                />
+
+                <ErrorMessage
+                  name="phone"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+            </section>
+
+            <section className="grid grid-cols-2 gap-5">
+              <div className="flex flex-col">
+                <label htmlFor="state" className="text-sm pb-1 mt-5">
+                  State
+                </label>
+                <Field
+                  name="state"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="State"
+                />
+
+                <ErrorMessage
+                  name="state"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="email" className="text-sm pb-1 mt-5">
+                  City
+                </label>
+                <Field
+                  name="city"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="City"
+                />
+
+                <ErrorMessage
+                  name="city"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+            </section>
+
+            <section className="grid sm:grid-cols-2 grid-cols-1 gap-5">
+              <div className="flex flex-col">
+                <label htmlFor="jobTitle" className="text-sm pb-1 mt-5">
+                  Job Title
+                </label>
+                <Field
+                  name="jobTitle"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Job Title"
+                />
+
+                <ErrorMessage
+                  name="jobTitle"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+
+              <div className="flex flex-col">
+                <label htmlFor="rate" className="text-sm pb-1 mt-5">
+                  Hourly Rate
+                </label>
+                <Field
+                  name="rate"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Hourly Rate"
+                  type="number"
+                />
+
+                <ErrorMessage
+                  name="rate"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+            </section>
+
+            <section className="">
+              <div className="flex flex-col">
+                <label htmlFor="description" className="text-sm pb-1 mt-5">
+                  Job Description
+                </label>
+                <Field
+                  name="description"
+                  className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                  placeholder="Job Description"
+                  as="textarea"
+                />
+
+                <ErrorMessage
+                  name="description"
+                  component="div"
+                  className="text-red-700 text-sm"
+                />
+              </div>
+            </section>
+
+            <button
+              disabled={!formik.isValid || !formik.dirty || isButtonDisabled}
+              type="submit"
+              className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 rounded-lg mt-5 disabled:opacity-50 transition-all duration-300"
+            >
+              Create Job
+            </button>
+          </Form>
+        )}
+      </Formik>
+    </div>
+  );
+};
+
+export default CreateJob;

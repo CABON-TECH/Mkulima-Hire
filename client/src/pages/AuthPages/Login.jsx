@@ -41,7 +41,6 @@ const LogIn = () => {
     // Handle log in
     const { email, loginPassword } = values;
     setIsButtonDisabled(true);
-    console.log("inner:", email, loginPassword);
     try {
       const response = await dispatch(
         login({

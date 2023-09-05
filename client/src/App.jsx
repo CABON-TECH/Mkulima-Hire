@@ -17,6 +17,7 @@ import FarmerDashboard from "./pages/FarmerDashboard";
 import FarmerDashboardLayout from "./components/FarmerDashboard/FarmerDashboardLayout";
 import FarmerPrivateRoute from "./features/auth/FarmerPrivateRoute";
 import WorkerPrivateRoute from "./features/auth/WorkerPrivateRoute";
+import CreateJob from "./pages/FarmerDashboard/Jobs/CreateJob";
 
 const theme = createTheme({
   typography: {
@@ -53,6 +54,10 @@ function App() {
                 element={<FarmerDashboardLayout />}
               >
                 <Route path="/farmer-dashboard" element={<FarmerDashboard />} />
+                <Route
+                  path="/farmer-dashboard/create-job"
+                  element={<CreateJob />}
+                />
               </Route>
             </Route>
             <Route path="*" element={<ErrorPage />} />
