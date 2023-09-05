@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import Avatar from "react-avatar";
+import Modal from "react-modal";
+import done from "../../../assets/done.svg";
 
 const API_URL = "http://localhost:5000/api/";
 
@@ -27,8 +29,15 @@ const CreateJob = () => {
 
   const [email, setEmail] = useState(user?.email);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
 
-  const createJob = async (values) => {
+  function openModal() {
+    setIsOpen(true);
+  }
+  function closeModal() {
+    setIsOpen(false);
+  }
+  const createJob = async (values, { resetForm }) => {
     setIsButtonDisabled(true);
     try {
       const config = {
@@ -50,9 +59,11 @@ const CreateJob = () => {
         config
       );
       setIsButtonDisabled(false);
+      openModal();
       toast.success("Job Posted successfully");
+      resetForm();
     } catch (error) {
-      toast.error("Error signing up");
+      toast.error("Error creating job");
       setIsButtonDisabled(false);
     }
   };
@@ -176,7 +187,7 @@ const CreateJob = () => {
 
               <div className="flex flex-col">
                 <label htmlFor="rate" className="text-sm pb-1 mt-5">
-                  Hourly Rate
+                  Hourly Rate (in KES)
                 </label>
                 <Field
                   name="rate"
@@ -223,6 +234,37 @@ const CreateJob = () => {
           </Form>
         )}
       </Formik>
+
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={{
+          overlay: {
+            position: "fixed",
+            background: "rgba(24, 49, 64, 0.63)",
+            backdropFilter: 'blur("91px")',
+            zIndex: 1,
+          },
+        }}
+        className="bg-white flex flex-col mt-[10%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
+        appElement={document.getElementById("root") || undefined}
+      >
+        <div className="flex justify-center">
+          <img src={done} alt="job posted" className="w-40" />
+        </div>
+        <p className="text-xl text-center w-1/2 py-3">
+          You have successfully created a job posting! Now, wait for
+          applications to start rolling in!
+        </p>
+        <div className="flex justify-center">
+          <button
+            onClick={() => closeModal()}
+            className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 rounded-lg mt-5 disabled:opacity-50"
+          >
+            Close Modal
+          </button>
+        </div>
+      </Modal>
     </div>
   );
 };
