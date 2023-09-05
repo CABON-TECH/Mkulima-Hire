@@ -42,7 +42,17 @@ const jobSchema = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'User',
         required: true
-    }
+    },
+    applications: [
+        {
+          name: String,
+          contactInfo: String,
+          experience: String,
+          location: String,
+          
+          
+        },
+      ],
 });
 
 const Job = mongoose.model('Job', jobSchema);
