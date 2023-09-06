@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
-import { GiFarmer } from "react-icons/gi";
-// import { FiSettings } from "react-icons/fi";
+import { FiSettings } from "react-icons/fi";
 import { ImMan } from "react-icons/im";
 import { useTabContext } from "../../features/hooks/TabContext";
 import Logout from "../Logout";
@@ -9,8 +8,8 @@ import { Link } from "react-router-dom";
 
 const links = [
   { id: 1, path: "Overview", icon: AiOutlineDashboard },
-  { id: 2, path: "Farmer", icon: ImMan },
-  { id: 3, path: "Worker", icon: GiFarmer },
+  { id: 2, path: "Jobs", icon: ImMan },
+  { id: 3, path: "Settings", icon: FiSettings },
 ];
 
 // links For mobile

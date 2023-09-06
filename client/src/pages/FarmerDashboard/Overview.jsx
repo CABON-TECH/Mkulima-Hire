@@ -10,6 +10,7 @@ const Overview = () => {
         <p className="text-[#74c116] text-2xl">Welcome, {user.name}</p>
         <Avatar name={user.name} size="40" round={true} />
       </div>
+      <p>This is a farmer dashboard</p>
     </div>
   );
 };
