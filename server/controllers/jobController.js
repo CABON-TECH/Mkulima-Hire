@@ -37,6 +37,31 @@ const getJobById = async (req, res, next) => {
         next(err);
     }
 };
+const applicationSubmission = async (req, res) => {
+    try {
+      // Extract job application data from the request body
+      const { name, contactInfo, experience } = req.body;
+  
+      // Find the job by jobId
+      const job = await Job.findById(req.params.jobId);
+  
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      // Add the job application to the job's applications array
+      job.applications.push({ name, contactInfo, experience });
+  
+      // Save the updated job
+      await job.save();
+  
+      // Return a success response
+      res.status(201).json({ message: 'Job application submitted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
 
 // update a job by id
 const updateJobById = async (req, res, next) => {
@@ -86,6 +111,7 @@ module.exports = {
     getAllJobs,
     createJob,
     getJobById,
+    applicationSubmission,
     updateJobById,
     deleteJobById
 };
