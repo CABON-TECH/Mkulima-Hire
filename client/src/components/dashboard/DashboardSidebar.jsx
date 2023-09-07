@@ -1,10 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineDashboard } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
 import { ImMan } from "react-icons/im";
 import { useTabContext } from "../../features/hooks/TabContext";
 import Logout from "../Logout";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const links = [
   { id: 1, path: "Overview", icon: AiOutlineDashboard },
@@ -17,13 +17,24 @@ const mobileOrder = [1, 0, 2];
 const mobileLinks = mobileOrder.map((i) => links[i]);
 
 const DashboardSidebar = () => {
-  const { setActiveTab } = useTabContext();
-  const [selectedLink, setSelectedLink] = useState("Overview");
+  const { activeTab, setActiveTab } = useTabContext();
+  const [selectedLink, setSelectedLink] = useState(activeTab);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
     setSelectedLink(tab);
+    navigate("/worker-dashboard");
   };
+
+  useEffect(() => {
+    if (location.pathname.startsWith("/worker-dashboard/job")) {
+      setActiveTab("Jobs");
+      setSelectedLink("Jobs");
+    }
+  }, [location.pathname, setActiveTab]);
 
   return (
     <>
