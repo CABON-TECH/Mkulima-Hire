@@ -7,6 +7,7 @@ router.post('/', protect, jobController.createJob);
 router.get('/:id', protect, jobController.getJobById);
 router.put('/:id', protect, jobController.updateJobById);
 router.post('/:jobId/apply', protect, jobController.applicationSubmission);
+router.get('/:jobId/applications', protect, jobController.applications);
 router.delete('/:id', protect, jobController.deleteJobById);
 
 
