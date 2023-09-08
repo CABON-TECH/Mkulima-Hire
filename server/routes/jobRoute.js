@@ -8,6 +8,8 @@ router.get('/:id', protect, jobController.getJobById);
 router.put('/:id', protect, jobController.updateJobById);
 router.post('/:jobId/apply', protect, jobController.applicationSubmission);
 router.get('/:jobId/applications', protect, jobController.applications);
+router.put('/:jobId/applications/:applicationId/approve', protect, jobController.approve);
+router.put('/:jobId/applications/:applicationId/reject', protect, jobController.reject);
 router.delete('/:id', protect, jobController.deleteJobById);
 
 

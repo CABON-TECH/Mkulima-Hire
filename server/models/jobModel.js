@@ -53,6 +53,11 @@ const jobSchema = new mongoose.Schema({
           
         },
       ],
+      status: {
+        type: String,
+        enum: ['approved', 'pending', 'rejected'],
+        default: 'pending', // Default status is 'pending'
+      },
 });
 
 const Job = mongoose.model('Job', jobSchema);

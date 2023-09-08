@@ -87,6 +87,73 @@ const applicationSubmission = async (req, res) => {
     }
   };
 
+  //application approval
+  const approve = async (req, res) => {
+    try {
+      const { jobId, applicationId } = req.params;
+      
+      // Find the job listing by jobId
+      const job = await Job.findById(jobId);
+  
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      // Find the application by applicationId
+      const application = job.applications.id(applicationId);
+  
+      if (!application) {
+        return res.status(404).json({ message: 'Application not found' });
+      }
+  
+      // Set the status to 'approved'
+      application.status = 'approved';
+  
+      // Save the updated job listing
+      await job.save();
+  
+      // Return a success response
+      res.status(200).json({ message: 'Application approved successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+
+  //reject
+  const reject = async (req, res) => {
+    try {
+      const { jobId, applicationId } = req.params;
+      
+      // Find the job listing by jobId
+      const job = await Job.findById(jobId);
+  
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      // Find the application by applicationId
+      const application = job.applications.id(applicationId);
+  
+      if (!application) {
+        return res.status(404).json({ message: 'Application not found' });
+      }
+  
+      // Set the status to 'rejected'
+      application.status = 'rejected';
+  
+      // Save the updated job listing
+      await job.save();
+  
+      // Return a success response
+      res.status(200).json({ message: 'Application rejected successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };
+  
+
 // update a job by id
 const updateJobById = async (req, res, next) => {
     try {
@@ -137,6 +204,8 @@ module.exports = {
     getJobById,
     applicationSubmission,
     applications,
+    approve,
+    reject,
     updateJobById,
     deleteJobById
 };
