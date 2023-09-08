@@ -68,7 +68,7 @@ const applicationSubmission = async (req, res) => {
       const { jobId } = req.params;
   
       // Find the job listing by jobId
-      const job = await Job.findById(jobId);
+      const job = await Job.findById(jobId).populate('applications.user');
   
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
