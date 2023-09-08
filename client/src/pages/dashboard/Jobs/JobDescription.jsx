@@ -7,6 +7,7 @@ import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { AiOutlineArrowLeft } from "react-icons/ai";
 import done from "../../../assets/done.svg";
 import Modal from "react-modal";
+import { formatDateDifference } from "../../../features/utils/Helpers";
 
 const JobDescription = () => {
   const user = useSelector((state) => state?.auth.user);
@@ -42,40 +43,10 @@ const JobDescription = () => {
   }, [user]);
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
 
-  // console.log(oneJob?._id);
-
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
     return apps?.some((item) => parseInt(item._id) === userId);
-  }
-
-  function formatDateDifference(date) {
-    const currentDate = new Date();
-    const targetDate = new Date(date);
-    const timeDifference = currentDate - targetDate;
-
-    const intervals = [
-      { label: "second", ms: 1000 },
-      { label: "minute", ms: 60000 },
-      { label: "hour", ms: 3600000 },
-      { label: "day", ms: 86400000 },
-      { label: "week", ms: 604800000 },
-      { label: "month", ms: 2592000000 },
-      { label: "year", ms: 31536000000 },
-    ];
-
-    for (let i = intervals.length - 1; i >= 0; i--) {
-      const interval = intervals[i];
-      const difference = Math.floor(timeDifference / interval.ms);
-
-      if (difference >= 1) {
-        const plural = difference > 1 ? "s" : "";
-        return `${difference} ${interval.label}${plural}`;
-      }
-    }
-
-    return "Just now";
   }
 
   const handleApply = async () => {

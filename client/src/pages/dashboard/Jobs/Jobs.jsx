@@ -6,6 +6,9 @@ import { ToastContainer, toast } from "react-toastify";
 import location from "../../../assets/location.svg";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
+import { capitalize } from "../../../features/utils/Helpers";
+import { formatDateDifference } from "../../../features/utils/Helpers";
+import { truncateString } from "../../../features/utils/Helpers";
 
 const Jobs = () => {
   const user = useSelector((state) => state?.auth.user);
@@ -28,52 +31,6 @@ const Jobs = () => {
       toast.error(error.message);
     }
   }, [user]);
-
-  const capitalize = (title) => {
-    const words = title.split(" ");
-    const capitalizedWords = words?.map((word) => {
-      return word?.charAt(0).toUpperCase() + word?.slice(1);
-    });
-    return capitalizedWords?.join(" ");
-  };
-
-  // console.log(jobOpenings);
-
-  function formatDateDifference(date) {
-    const currentDate = new Date();
-    const targetDate = new Date(date);
-    const timeDifference = currentDate - targetDate;
-
-    const intervals = [
-      { label: "second", ms: 1000 },
-      { label: "minute", ms: 60000 },
-      { label: "hour", ms: 3600000 },
-      { label: "day", ms: 86400000 },
-      { label: "week", ms: 604800000 },
-      { label: "month", ms: 2592000000 },
-      { label: "year", ms: 31536000000 },
-    ];
-
-    for (let i = intervals.length - 1; i >= 0; i--) {
-      const interval = intervals[i];
-      const difference = Math.floor(timeDifference / interval.ms);
-
-      if (difference >= 1) {
-        const plural = difference > 1 ? "s" : "";
-        return `${difference} ${interval.label}${plural}`;
-      }
-    }
-
-    return "Just now";
-  }
-
-  function truncateString(inputString) {
-    if (inputString.length > 30) {
-      return inputString.substring(0, 30) + " ...";
-    }
-
-    return inputString;
-  }
 
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);

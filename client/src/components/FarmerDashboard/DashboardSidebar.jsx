@@ -29,6 +29,13 @@ const DashboardSidebar = () => {
     }
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (location.pathname.startsWith("/farmer-dashboard")) {
+      setFarmerActiveTab("Jobs");
+      setSelectedLink("Jobs");
+    }
+  }, [location.pathname, setFarmerActiveTab]);
+
   const navigate = useNavigate();
 
   const handleTabClick = (tab) => {
