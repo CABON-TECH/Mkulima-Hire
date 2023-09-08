@@ -37,6 +37,8 @@ const Jobs = () => {
     return capitalizedWords?.join(" ");
   };
 
+  // console.log(jobOpenings);
+
   function formatDateDifference(date) {
     const currentDate = new Date();
     const targetDate = new Date(date);
@@ -72,7 +74,12 @@ const Jobs = () => {
 
     return inputString;
   }
-  // console.log(jobOpenings);
+
+  function checkApplyStatus(job) {
+    const userId = parseInt(user?._id);
+    const apps = job?.applications;
+    return apps?.some((item) => parseInt(item._id) === userId);
+  }
 
   return (
     <div className="sm:pl-60 pl-2 py-5 pb-24 w-full pr-2 sm:pr-10">
@@ -113,8 +120,13 @@ const Jobs = () => {
                       className="mt-1"
                     />
                     <div className="">
-                      <p className="text-lg font-semibold text-[#282828]">
+                      <p className="text-lg font-semibold text-[#282828] flex items-center gap-x-1">
                         {capitalize(job.title)}
+                        {checkApplyStatus(job) && (
+                          <p className="text-xs bg-[#74c116] text-[#F2F2F2] px-2 rounded-sm">
+                            Applied
+                          </p>
+                        )}
                       </p>
                       <p className="flex items-center gap-x-1 text-sm text-[#5d5d5d]">
                         <img src={location} alt="" />
@@ -127,7 +139,7 @@ const Jobs = () => {
                   </div>
 
                   <div className="flex gap-x-3">
-                    <p className="text-[#282828] text-sm">
+                    <p className="text-[#282828] text-sm whitespace-nowrap">
                       Posted {formatDateDifference(job.date)} ago
                     </p>
                     <div className="flex justify-center">
