@@ -11,7 +11,7 @@ import { formatDateDifference } from "../../../features/utils/Helpers";
 
 const JobDescription = () => {
   const user = useSelector((state) => state?.auth.user);
-  const API_URL = "http://localhost:5000/api/";
+  const API_URL = import.meta.env.VITE_API_URL;
   const [jobOpenings, setJobOpenings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);

@@ -11,7 +11,7 @@ const Applications = () => {
   const [loading, setLoading] = useState(true);
   const [jobOpenings, setJobOpenings] = useState([]);
 
-  const API_URL = "http://localhost:5000/api/";
+  const API_URL = import.meta.env.VITE_API_URL;
 
   const { _id } = useParams();
   const navigate = useNavigate();
