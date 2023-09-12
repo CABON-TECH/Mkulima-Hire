@@ -1,4 +1,7 @@
 const Job = require('../models/jobModel');
+const io = require('../webSocketServer/webSocketServer.js');
+
+
 
 const getAllJobs = async (req, res, next) => {
     try {
@@ -73,6 +76,7 @@ const applicationSubmission = async (req, res) => {
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
       }
+
   
       // Retrieve the applications associated with the job listing
       const applications = job.applications;
@@ -86,6 +90,39 @@ const applicationSubmission = async (req, res) => {
       res.status(500).json({ message: 'Internal server error' });
     }
   };
+  /*const applicationSubmission = async (req, res) => {
+    try {
+      // Extract job application data from the request body
+      const { name, contactInfo, experience } = req.body;
+  
+      // Find the job by jobId
+      const job = await Job.findById(req.params.jobId);
+  
+      if (!job) {
+        return res.status(404).json({ message: 'Job not found' });
+      }
+  
+      // Create a job application document with worker details
+      const jobApplication = {
+        worker: req.user._id, // Assuming you have authenticated workers
+        workerName: name,
+        contactInfo: contactInfo,
+        experience: experience,
+      };
+  
+      // Add the job application to the job's applications array
+      job.applications.push(jobApplication);
+  
+      // Save the updated job
+      await job.save();
+  
+      // Return a success response
+      res.status(201).json({ message: 'Job application submitted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal server error' });
+    }
+  };*/
 
   //application approval
   const approve = async (req, res) => {
@@ -111,6 +148,12 @@ const applicationSubmission = async (req, res) => {
   
       // Save the updated job listing
       await job.save();
+
+      //emitting an event to the worker with the updated status
+      io.to(workerSocketId).emit('applicationStatusChange',{
+        applicationId,
+        newStatus: 'approved',
+      });
   
       // Return a success response
       res.status(200).json({ message: 'Application approved successfully' });
@@ -144,6 +187,12 @@ const applicationSubmission = async (req, res) => {
   
       // Save the updated job listing
       await job.save();
+
+      //emit an event to the worker with updated status
+      io.to(workerSocketid).emit('applicationStatusChange', {
+        applicationId,
+        newStatus: 'rejected',
+      });
   
       // Return a success response
       res.status(200).json({ message: 'Application rejected successfully' });
