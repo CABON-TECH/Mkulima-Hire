@@ -30,7 +30,7 @@ const Jobs = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }, [user]);
+  }, [user, API_URL]);
 
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
@@ -100,7 +100,7 @@ const Jobs = () => {
                       Posted {formatDateDifference(job.date)} ago
                     </p>
                     <div className="flex justify-center">
-                      <button className="text-sm text-[#74c116]">
+                      <button className="text-sm text-[#74c116] whitespace-nowrap">
                         <Link to={`/worker-dashboard/job/${job._id}`}>
                           View Details
                         </Link>

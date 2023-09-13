@@ -29,7 +29,7 @@ const Applications = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }, [user]);
+  }, [user, API_URL]);
 
   return (
     <>
