@@ -18,7 +18,7 @@ const mobileOrder = [1, 0, 2];
 const mobileLinks = mobileOrder.map((i) => links[i]);
 
 const DashboardSidebar = () => {
-  const { setFarmerActiveTab } = useTabContext();
+  const { farmerActiveTab, setFarmerActiveTab } = useTabContext();
   const [selectedLink, setSelectedLink] = useState("Overview");
 
   const location = useLocation();
@@ -31,10 +31,9 @@ const DashboardSidebar = () => {
 
   useEffect(() => {
     if (location.pathname.startsWith("/farmer-dashboard")) {
-      setFarmerActiveTab("Jobs");
-      setSelectedLink("Jobs");
+      setSelectedLink(farmerActiveTab);
     }
-  }, [location.pathname, setFarmerActiveTab]);
+  }, [location.pathname, farmerActiveTab]);
 
   const navigate = useNavigate();
 

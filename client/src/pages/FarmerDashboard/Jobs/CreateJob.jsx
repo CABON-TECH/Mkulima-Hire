@@ -88,6 +88,8 @@ const CreateJob = () => {
         <p className="text-[#74c116] text-2xl">Hello, {user.name}</p>
         <Avatar name={user.name} size="40" round={true} />
       </div>
+      <hr className="mt-3" />
+
       <ToastContainer />
       <h2 className="text-[#74c116] text-xl font-semibold">
         Create a Job Opening
@@ -239,10 +241,7 @@ const CreateJob = () => {
                     Please provide a job description
                   </p>
                 )}
-                {/* <ErrorMessage
-                  name="description"
-                  component="div"
-                /> */}
+
                 <p className="text-xs flex justify-end pt-1">{charCount}/500</p>
               </div>
             </section>
@@ -286,7 +285,7 @@ const CreateJob = () => {
             onClick={() => closeModal()}
             className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 rounded-lg mt-5 disabled:opacity-50"
           >
-            Close Modal
+            Close
           </button>
         </div>
       </Modal>

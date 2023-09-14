@@ -31,11 +31,8 @@ const Jobs = () => {
     }
   }, [user, API_URL]);
 
-
   console.log(jobOpenings);
   console.log(user);
-
-
 
   let filteredJobs = jobOpenings?.filter((job) => job.user === user?._id);
 
@@ -46,6 +43,8 @@ const Jobs = () => {
         <p className="text-[#74c116] text-2xl">Hello, {user.name}</p>
         <Avatar name={user.name} size="40" round={true} />
       </div>
+      <hr className="mt-3" />
+
       <button
         className="bg-[#74c116] text-[#f2f2f2] p-3 rounded-lg mt-5"
         onClick={() => navigate("/farmer-dashboard/create-job")}

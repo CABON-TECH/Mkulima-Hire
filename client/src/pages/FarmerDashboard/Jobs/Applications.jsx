@@ -31,8 +31,6 @@ const Applications = () => {
     }
   }, [user, API_URL]);
 
-  console.log(jobOpenings);
-
   return (
     <>
       {loading ? (
@@ -55,51 +53,71 @@ const Applications = () => {
             <AiOutlineArrowLeft />
             Go back to Jobs
           </button>
-          <div className="grid grid-cols-2">
-            <div>
-              <p className="text-lg">{oneJob?.title}</p>
-              <p className="text-sm text-[#282828] font-light leading-tight">
+          <hr className="mt-3" />
+
+          <div className="sm:grid grid-cols-2 mt-2">
+            <div className="mb-2">
+              <p className="text-base">{oneJob?.title}</p>
+              <p className="text-xs text-[#282828] font-light leading-tight">
                 Job Title
               </p>
             </div>
 
-            <div>
-              <p className="text-lg">
+            <div className="mb-2">
+              <p className="text-base">
                 {oneJob?.city}, {oneJob?.state}
               </p>
-              <p className="text-sm text-[#282828] font-light leading-tight">
+              <p className="text-xs text-[#282828] font-light leading-tight">
                 Job Location
               </p>
             </div>
 
-            <div>
-              <p className="text-lg">{oneJob?.pay}</p>
-              <p className="text-sm text-[#282828] font-light leading-tight">
+            <div className="mb-2">
+              <p className="text-base">{oneJob?.pay}</p>
+              <p className="text-xs text-[#282828] font-light leading-tight">
                 Hourly Wage (in KES)
               </p>
             </div>
 
-            <div>
-              <p className="text-lg">{oneJob?.description}</p>
-              <p className="text-sm text-[#282828] font-light leading-tight">
+            <div className="mb-2">
+              <p className="text-base">{oneJob?.description}</p>
+              <p className="text-xs text-[#282828] font-light leading-tight">
                 Job Description
               </p>
             </div>
           </div>
 
           <div className="mt-7">
-            <p className="font-semibold">
+            <p className="font-semibold text-[#74c116]">
               Applications Received For This Job ({oneJob.applications.length})
             </p>
-            {oneJob?.applications.map((applicant, index) => (
-              <div key={applicant._id}>
-                <p>
-                  <span>{index + 1}. </span>
-                  {applicant.contactInfo}
-                </p>
-                <p>{applicant.experience}</p>
-              </div>
-            ))}
+
+            <table className="w-full mt-2 border-[1px] border-[#74c116]">
+              <tr>
+                <th className="border-[1px] border-[#74c116] ">S/N</th>
+                <th className="border-[1px] border-[#74c116] ">Contact</th>
+                <th className="border-[1px] border-[#74c116] ">Experience</th>
+              </tr>
+
+              {oneJob?.applications.map((applicant, index) => (
+                <tr key={applicant._id} className="text-center ">
+                  <td className="border-[1px] border-[#74c116]">
+                    {index + 1}.
+                  </td>
+                  <td className="border-[1px] border-[#74c116]">
+                    {applicant.contactInfo}
+                  </td>
+                  <td className="border-[1px] border-[#74c116]">
+                    {applicant.experience}
+                  </td>
+                </tr>
+              ))}
+            </table>
+            {oneJob.applications.length == 0 && (
+              <p className="text-center text-lg mt-2 text-[#74c116]">
+                No applications yet!
+              </p>
+            )}
           </div>
         </div>
       )}
