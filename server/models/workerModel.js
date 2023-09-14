@@ -56,6 +56,11 @@ const workerSchema = new mongoose.Schema({
         required: true,
 
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId, 
+        required: true,
+        ref: 'User', 
+      },
 
    
 

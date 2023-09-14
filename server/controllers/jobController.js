@@ -1,4 +1,5 @@
 const Job = require('../models/jobModel');
+const Worker = require('../models/workerModel');
 const io = require('../webSocketServer/webSocketServer.js');
 
 
@@ -43,7 +44,7 @@ const getJobById = async (req, res, next) => {
 const applicationSubmission = async (req, res) => {
     try {
       // Extract job application data from the request body
-      const { name, contactInfo, experience } = req.body;
+      const { name, contactInfo, experience, userId } = req.body;
   
       // Find the job by jobId
       const job = await Job.findById(req.params.jobId);
@@ -53,7 +54,7 @@ const applicationSubmission = async (req, res) => {
       }
   
       // Add the job application to the job's applications array
-      job.applications.push({ name, contactInfo, experience });
+      job.applications.push({ name, contactInfo, experience, userId });
   
       // Save the updated job
       await job.save();
@@ -80,10 +81,12 @@ const applicationSubmission = async (req, res) => {
   
       // Retrieve the applications associated with the job listing
       const applications = job.applications;
+
+      const workerDetails = await Worker.find({ userId: { $in: applications.map(app => app.userId) } });
   
       res.status(200).json({
         success: true,
-        data: applications,
+        data: { applications, workerDetails },
       });
     } catch (error) {
       console.error(error);
