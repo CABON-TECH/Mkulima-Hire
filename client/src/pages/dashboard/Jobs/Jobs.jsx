@@ -32,9 +32,6 @@ const Jobs = () => {
     }
   }, [user, API_URL]);
 
-  console.log(jobOpenings);
-  console.log(user);
-
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
@@ -49,6 +46,7 @@ const Jobs = () => {
         <p className="text-[#74c116] text-2xl">Hello, {user?.name}</p>
         <Avatar name={user?.name} size="40" round={true} />
       </div>
+      <hr className="mt-3" />
 
       <div className="sm:flex justify-between items-center mt-3">
         <h2>These are the current available job openings</h2>

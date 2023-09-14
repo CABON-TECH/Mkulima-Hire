@@ -101,6 +101,8 @@ const JobDescription = () => {
             <AiOutlineArrowLeft />
             Go back to Jobs
           </button>
+          <hr className="mt-3" />
+
           <LoadingSpinner />
         </div>
       ) : (
@@ -112,46 +114,48 @@ const JobDescription = () => {
             <AiOutlineArrowLeft />
             Go back to Jobs
           </button>
-          <div>
-            <p className="text-lg">{oneJob?.title}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <hr className="mt-3" />
+
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.title}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Title
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">
+          <div className="mb-2">
+            <p className="text-base">
               {oneJob?.city}, {oneJob?.state}
             </p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Location
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">{oneJob?.pay}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.pay}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Hourly Wage (in KES)
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">{oneJob?.description}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.description}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Description
             </p>
           </div>
           <div className="mt-5">
             <p className="font-semibold">Contact the Employer</p>
-            <p className="text-lg">{oneJob?.email}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-base">{oneJob?.email}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Employer mail
             </p>
           </div>
 
           <div>
-            <p className="text-lg">{oneJob?.phone}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-base">{oneJob?.phone}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Employer phone number
             </p>
           </div>
@@ -237,7 +241,10 @@ const JobDescription = () => {
                 <Form className="flex flex-col">
                   <section className="">
                     <div className="flex flex-col">
-                      <label htmlFor="contact" className="text-sm pb-1 mt-5">
+                      <label
+                        htmlFor="contact"
+                        className="text-sm pb-1 mt-5 font-semibold"
+                      >
                         Contact Information
                       </label>
                       <Field
@@ -256,7 +263,10 @@ const JobDescription = () => {
                     </div>
 
                     <div className="flex flex-col">
-                      <label htmlFor="experience" className="text-sm pb-1 mt-5">
+                      <label
+                        htmlFor="experience"
+                        className="text-sm pb-1 mt-5 font-semibold"
+                      >
                         Experience
                       </label>
                       <Field
