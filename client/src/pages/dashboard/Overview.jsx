@@ -11,6 +11,7 @@ const Overview = () => {
         <Avatar name={user.name} size="40" round={true} />
       </div>
       <p>This is a worker dashboard</p>
+      <hr className="mt-3" />
     </div>
   );
 };
