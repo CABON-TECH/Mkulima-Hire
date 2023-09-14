@@ -32,6 +32,9 @@ const Jobs = () => {
     }
   }, [user, API_URL]);
 
+  console.log(jobOpenings);
+  console.log(user);
+
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
@@ -89,7 +92,7 @@ const Jobs = () => {
                         <img src={location} alt="" />
                         {capitalize(job.city)}, {capitalize(job.state)}
                       </p>
-                      <p className="text-sm text-[#5d5d5d]">
+                      <p className="text-sm text-[#5d5d5d] whitespace-nowrap">
                         {truncateString(job.description)}
                       </p>
                     </div>

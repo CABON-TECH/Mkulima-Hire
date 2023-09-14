@@ -19,7 +19,6 @@ const createJobSchema = Yup.object().shape({
   state: Yup.string().required("State name is required"),
   jobTitle: Yup.string().required("Job Title is required"),
   rate: Yup.number().required("Hourly Rate is required"),
-  description: Yup.string().required("Please provide a job description"),
 });
 
 const CreateJob = () => {
@@ -30,13 +29,19 @@ const CreateJob = () => {
   const [email, setEmail] = useState(user?.email);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [value, setValue] = useState("");
+  const [charCount, setCharCount] = useState(0);
+  const [isMyInputFocused, setIsMyInputFocused] = useState(false);
 
   function openModal() {
     setIsOpen(true);
   }
   function closeModal() {
     setIsOpen(false);
+    setValue("");
+    setCharCount(0);
   }
+
   const createJob = async (values, { resetForm }) => {
     setIsButtonDisabled(true);
     try {
@@ -47,7 +52,7 @@ const CreateJob = () => {
         API_URL + "jobs",
         {
           title: values.jobTitle,
-          description: values.description,
+          description: value,
           city: values.city,
           state: values.state,
           phone: values.phone,
@@ -63,10 +68,20 @@ const CreateJob = () => {
       toast.success("Job Posted successfully");
       resetForm();
     } catch (error) {
-      toast.error("Error creating job");
+      toast.error(error.message);
       setIsButtonDisabled(false);
     }
   };
+
+  const handleTextAreaChange = (event) => {
+    const newValue = event.target.value;
+    if (newValue.length <= 500) {
+      setCharCount(newValue.length);
+      setValue(newValue);
+      // onChange(event);
+    }
+  };
+
   return (
     <div className="sm:pl-60 pl-2 py-5 pb-24 w-full pr-2 sm:pr-10">
       <div className="flex justify-between items-center">
@@ -85,7 +100,7 @@ const CreateJob = () => {
           state: "",
           jobTitle: "",
           rate: "",
-          description: "",
+          description: value,
         }}
         validationSchema={createJobSchema}
         onSubmit={createJob}
@@ -205,27 +220,37 @@ const CreateJob = () => {
             </section>
 
             <section className="">
-              <div className="flex flex-col">
+              <div className="flex flex-col relative">
                 <label htmlFor="description" className="text-sm pb-1 mt-5">
                   Job Description
                 </label>
                 <Field
+                  onChange={handleTextAreaChange}
+                  value={value}
                   name="description"
                   className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
                   placeholder="Job Description"
                   as="textarea"
+                  onBlur={() => setIsMyInputFocused(false)}
+                  onFocus={() => setIsMyInputFocused(true)}
                 />
-
-                <ErrorMessage
+                {!value && isMyInputFocused && (
+                  <p className="text-red-700 text-sm">
+                    Please provide a job description
+                  </p>
+                )}
+                {/* <ErrorMessage
                   name="description"
                   component="div"
-                  className="text-red-700 text-sm"
-                />
+                /> */}
+                <p className="text-xs flex justify-end pt-1">{charCount}/500</p>
               </div>
             </section>
 
             <button
-              disabled={!formik.isValid || !formik.dirty || isButtonDisabled}
+              disabled={
+                !formik.isValid || !formik.dirty || isButtonDisabled || !value
+              }
               type="submit"
               className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 rounded-lg mt-5 disabled:opacity-50 transition-all duration-300"
             >
