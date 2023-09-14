@@ -31,6 +31,8 @@ const Applications = () => {
     }
   }, [user, API_URL]);
 
+  console.log(jobOpenings);
+
   return (
     <>
       {loading ? (
@@ -86,9 +88,17 @@ const Applications = () => {
           </div>
 
           <div className="mt-7">
-            <p className="font-semibold">Applications Received For This Job</p>
-            {oneJob?.applications.map((applicant) => (
-              <div key={applicant._id}>{applicant._id}</div>
+            <p className="font-semibold">
+              Applications Received For This Job ({oneJob.applications.length})
+            </p>
+            {oneJob?.applications.map((applicant, index) => (
+              <div key={applicant._id}>
+                <p>
+                  <span>{index + 1}. </span>
+                  {applicant.contactInfo}
+                </p>
+                <p>{applicant.experience}</p>
+              </div>
             ))}
           </div>
         </div>

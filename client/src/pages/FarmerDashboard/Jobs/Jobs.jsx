@@ -29,7 +29,7 @@ const Jobs = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }, [user]);
+  }, [user, API_URL]);
 
   console.log(jobOpenings);
   console.log(user);

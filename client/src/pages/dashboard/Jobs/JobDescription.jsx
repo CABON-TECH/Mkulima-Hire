@@ -8,14 +8,24 @@ import { AiOutlineArrowLeft } from "react-icons/ai";
 import done from "../../../assets/done.svg";
 import Modal from "react-modal";
 import { formatDateDifference } from "../../../features/utils/Helpers";
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import * as Yup from "yup";
+
+const applySchema = Yup.object().shape({
+  contact: Yup.string().required("Please provide contact information"),
+  experience: Yup.string().required("Please provide experience details"),
+});
 
 const JobDescription = () => {
   const user = useSelector((state) => state?.auth.user);
   const API_URL = import.meta.env.VITE_API_URL;
+
+  const [email, setEmail] = useState(user?.email);
   const [jobOpenings, setJobOpenings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
+  const [applyModalIsOpen, setApplyModalIsOpen] = useState(false);
 
   function openModal() {
     setIsOpen(true);
@@ -23,6 +33,13 @@ const JobDescription = () => {
   function closeModal() {
     setIsOpen(false);
     navigate("/worker-dashboard");
+  }
+
+  function openApplyModal() {
+    setApplyModalIsOpen(true);
+  }
+  function closeApplyModal() {
+    setApplyModalIsOpen(false);
   }
 
   const { _id } = useParams();
@@ -40,7 +57,7 @@ const JobDescription = () => {
     } catch (error) {
       toast.error(error.message);
     }
-  }, [user]);
+  }, [user, API_URL]);
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
 
   function checkApplyStatus(job) {
@@ -49,15 +66,22 @@ const JobDescription = () => {
     return apps?.some((item) => parseInt(item._id) === userId);
   }
 
-  const handleApply = async () => {
+  const handleApply = async (values) => {
     setIsButtonDisabled(true);
     try {
       const config = {
         headers: { Authorization: `Bearer ${user?.token}` },
       };
-      // console.log("Request Config:", config);
-      await axios.post(API_URL + `jobs/${oneJob?._id}/apply`, {}, config);
+      await axios.post(
+        API_URL + `jobs/${oneJob?._id}/apply`,
+        {
+          contactInfo: email,
+          experience: values.experience,
+        },
+        config
+      );
       setIsButtonDisabled(false);
+      closeApplyModal();
       openModal();
       toast.success("Job Application successful");
     } catch (error) {
@@ -148,10 +172,9 @@ const JobDescription = () => {
             </p>
           ) : (
             <button
-              disabled={isButtonDisabled}
               type="submit"
               className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 bg-custom-blue mx-auto rounded-lg mt-5 disabled:opacity-50 transition-all duration-300"
-              onClick={() => handleApply()}
+              onClick={() => openApplyModal()}
             >
               Apply For This Job
             </button>
@@ -168,7 +191,7 @@ const JobDescription = () => {
                 zIndex: 1,
               },
             }}
-            className="bg-white flex flex-col mt-[10%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
+            className="bg-white flex flex-col mt-[5%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
             appElement={document.getElementById("root") || undefined}
           >
             <div className="flex justify-center">
@@ -186,6 +209,82 @@ const JobDescription = () => {
                 Close Modal
               </button>
             </div>
+          </Modal>
+
+          <Modal
+            isOpen={applyModalIsOpen}
+            onRequestClose={closeApplyModal}
+            style={{
+              overlay: {
+                position: "fixed",
+                background: "rgba(24, 49, 64, 0.63)",
+                backdropFilter: 'blur("91px")',
+                zIndex: 1,
+              },
+            }}
+            className="bg-white flex flex-col mt-[5%] py-10 sm:w-[50%] w-[90%] mx-auto justify-center items-center rounded-sm"
+            appElement={document.getElementById("root") || undefined}
+          >
+            <Formik
+              initialValues={{
+                contact: email,
+                experience: "",
+              }}
+              validationSchema={applySchema}
+              onSubmit={handleApply}
+            >
+              {(formik) => (
+                <Form className="flex flex-col">
+                  <section className="">
+                    <div className="flex flex-col">
+                      <label htmlFor="contact" className="text-sm pb-1 mt-5">
+                        Contact Information
+                      </label>
+                      <Field
+                        name="contact"
+                        className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                        placeholder="Contact Information"
+                        onChange={(e) => setEmail(e.target.value)}
+                        value={email}
+                      />
+
+                      <ErrorMessage
+                        name="contact"
+                        component="div"
+                        className="text-red-700 text-sm"
+                      />
+                    </div>
+
+                    <div className="flex flex-col">
+                      <label htmlFor="experience" className="text-sm pb-1 mt-5">
+                        Experience
+                      </label>
+                      <Field
+                        name="experience"
+                        className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                        placeholder="E.g. 5 years of experience"
+                      />
+
+                      <ErrorMessage
+                        name="experience"
+                        component="div"
+                        className="text-red-700 text-sm"
+                      />
+                    </div>
+                  </section>
+
+                  <button
+                    disabled={
+                      !formik.isValid || !formik.dirty || isButtonDisabled
+                    }
+                    type="submit"
+                    className="bg-[#74c116] text-[#ffffff] text-md font-light px-10 py-2 bg-custom-blue mx-auto rounded-lg mt-5 disabled:opacity-50 transition-all duration-300"
+                  >
+                    Apply
+                  </button>
+                </Form>
+              )}
+            </Formik>
           </Modal>
         </div>
       )}

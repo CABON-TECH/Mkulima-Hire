@@ -95,7 +95,7 @@ const LogIn = () => {
                 <Field
                   name="email"
                   className="focus:border-2 border-[1px] rounded-lg p-3 sm:w-[30rem] w-80 bg-transparent border-[#2b2b39] focus:outline-none"
-                  placeholder="email"
+                  placeholder="Email"
                 />
 
                 <ErrorMessage
