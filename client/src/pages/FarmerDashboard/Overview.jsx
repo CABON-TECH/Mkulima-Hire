@@ -28,8 +28,6 @@ const Overview = () => {
 
   let filteredJobs = jobOpenings?.filter((job) => job.user === user?._id);
 
-  console.log(filteredJobs);
-
   // Calculate the total length of the applications array
   const totalApplicationsLength = filteredJobs.reduce((total, job) => {
     return total + job.applications.length;
@@ -58,7 +56,7 @@ const Overview = () => {
           <p className="text-2xl font-semibold text-[#74c116]">
             {totalApplicationsLength}
           </p>
-          <p>Application{totalApplicationsLength !== 1 && "s"} Received</p>
+          <p>Applications Received</p>
         </div>
       </div>
     </div>

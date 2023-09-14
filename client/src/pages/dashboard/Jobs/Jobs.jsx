@@ -32,6 +32,9 @@ const Jobs = () => {
     }
   }, [user, API_URL]);
 
+  console.log(jobOpenings);
+  console.log(user);
+
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
