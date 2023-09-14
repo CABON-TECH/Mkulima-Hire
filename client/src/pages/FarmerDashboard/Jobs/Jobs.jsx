@@ -30,12 +30,12 @@ const Jobs = () => {
       toast.error(error.message);
     }
   }, [user, API_URL]);
-<<<<<<< HEAD
+
 
   console.log(jobOpenings);
   console.log(user);
-=======
->>>>>>> de6ce9ddd68654071c225b51f6aa5226c873dc39
+
+
 
   let filteredJobs = jobOpenings?.filter((job) => job.user === user?._id);
 
