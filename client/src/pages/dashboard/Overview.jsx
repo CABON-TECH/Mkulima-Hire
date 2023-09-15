@@ -30,8 +30,6 @@ const Overview = () => {
     }
   }, [user, API_URL]);
 
-  console.log(jobOpenings);
-
   const totalApplicationsLength = null;
 
   return (

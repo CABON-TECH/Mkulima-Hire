@@ -30,7 +30,7 @@ const DashboardSidebar = () => {
   };
 
   useEffect(() => {
-    if (location.pathname.startsWith("/farmer-dashboard")) {
+    if (location.pathname.startsWith("/worker-dashboard")) {
       setSelectedLink(activeTab);
     }
   }, [location.pathname, activeTab]);

@@ -57,7 +57,6 @@ const Register = () => {
           role: roleSelected,
         })
       );
-      console.log("Registration successful:", response.payload);
       toast.success("Registration successful");
       // Store user data in localStorage
       localStorage.setItem("user", JSON.stringify(response.payload));

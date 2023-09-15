@@ -24,8 +24,6 @@ const createJobSchema = Yup.object().shape({
 const CreateJob = () => {
   const user = useSelector((state) => state?.auth.user);
 
-  // console.log(user);
-
   const [email, setEmail] = useState(user?.email);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);

@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { AiOutlineArrowLeft } from "react-icons/ai";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5001");
 
 const Applications = () => {
   const user = useSelector((state) => state?.auth.user);
@@ -16,6 +18,24 @@ const Applications = () => {
   const { _id } = useParams();
   const navigate = useNavigate();
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
+
+  const handleAcceptReview = (workerId) => {
+    socket.emit("send_status", {
+      message: "Approved",
+      farmerId: user?._id,
+      workerId,
+      jobId: _id,
+    });
+  };
+
+  const handleRejectReview = (workerId) => {
+    socket.emit("send_status", {
+      message: "Rejected",
+      farmerId: user?._id,
+      workerId,
+      jobId: _id,
+    });
+  };
 
   useEffect(() => {
     try {
@@ -97,6 +117,7 @@ const Applications = () => {
                 <th className="border-[1px] border-[#74c116] ">S/N</th>
                 <th className="border-[1px] border-[#74c116] ">Contact</th>
                 <th className="border-[1px] border-[#74c116] ">Experience</th>
+                <th className="border-[1px] border-[#74c116] ">Status</th>
               </tr>
 
               {oneJob?.applications.map((applicant, index) => (
@@ -109,6 +130,20 @@ const Applications = () => {
                   </td>
                   <td className="border-[1px] border-[#74c116]">
                     {applicant.experience}
+                  </td>
+                  <td className="border-[1px] border-[#74c116]">
+                    <button
+                      className="bg-green-400 mr-5 my-2 px-2 py-1 rounded-md"
+                      onClick={() => handleAcceptReview(applicant._id)}
+                    >
+                      Approve
+                    </button>
+                    <button
+                      className="bg-red-400 my-2 px-2 py-1 rounded-md"
+                      onClick={() => handleRejectReview(applicant._id)}
+                    >
+                      Reject
+                    </button>
                   </td>
                 </tr>
               ))}

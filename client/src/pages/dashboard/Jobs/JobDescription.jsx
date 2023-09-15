@@ -10,6 +10,8 @@ import Modal from "react-modal";
 import { formatDateDifference } from "../../../features/utils/Helpers";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5001");
 
 const applySchema = Yup.object().shape({
   contact: Yup.string().required("Please provide contact information"),
@@ -26,6 +28,7 @@ const JobDescription = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [applyModalIsOpen, setApplyModalIsOpen] = useState(false);
+  const [status, setStatus] = useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -46,6 +49,13 @@ const JobDescription = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    socket.on("receive_status", (data) => {
+      setStatus(data.message);
+    }),
+      [socket];
+  });
+
+  useEffect(() => {
     try {
       const config = {
         headers: { Authorization: `Bearer ${user?.token}` },
@@ -59,6 +69,7 @@ const JobDescription = () => {
     }
   }, [user, API_URL]);
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
+  console.log(oneJob);
 
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
@@ -82,6 +93,7 @@ const JobDescription = () => {
       );
       setIsButtonDisabled(false);
       closeApplyModal();
+
       openModal();
       toast.success("Job Application successful");
     } catch (error) {
@@ -183,6 +195,7 @@ const JobDescription = () => {
               Apply For This Job
             </button>
           )}
+          <p>{status}</p>
 
           <Modal
             isOpen={modalIsOpen}
