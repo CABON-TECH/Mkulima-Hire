@@ -30,6 +30,12 @@ const DashboardSidebar = () => {
   };
 
   useEffect(() => {
+    if (location.pathname.startsWith("/worker-dashboard")) {
+      setSelectedLink(activeTab);
+    }
+  }, [location.pathname, activeTab]);
+
+  useEffect(() => {
     if (location.pathname.startsWith("/worker-dashboard/job")) {
       setActiveTab("Jobs");
       setSelectedLink("Jobs");

@@ -10,6 +10,8 @@ import Modal from "react-modal";
 import { formatDateDifference } from "../../../features/utils/Helpers";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:5001");
 
 const applySchema = Yup.object().shape({
   contact: Yup.string().required("Please provide contact information"),
@@ -26,6 +28,7 @@ const JobDescription = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [applyModalIsOpen, setApplyModalIsOpen] = useState(false);
+  const [status, setStatus] = useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -46,6 +49,13 @@ const JobDescription = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    socket.on("receive_status", (data) => {
+      setStatus(data.message);
+    }),
+      [socket];
+  });
+
+  useEffect(() => {
     try {
       const config = {
         headers: { Authorization: `Bearer ${user?.token}` },
@@ -59,6 +69,7 @@ const JobDescription = () => {
     }
   }, [user, API_URL]);
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
+  console.log(oneJob);
 
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
@@ -82,6 +93,7 @@ const JobDescription = () => {
       );
       setIsButtonDisabled(false);
       closeApplyModal();
+
       openModal();
       toast.success("Job Application successful");
     } catch (error) {
@@ -101,6 +113,8 @@ const JobDescription = () => {
             <AiOutlineArrowLeft />
             Go back to Jobs
           </button>
+          <hr className="mt-3" />
+
           <LoadingSpinner />
         </div>
       ) : (
@@ -112,46 +126,48 @@ const JobDescription = () => {
             <AiOutlineArrowLeft />
             Go back to Jobs
           </button>
-          <div>
-            <p className="text-lg">{oneJob?.title}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <hr className="mt-3" />
+
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.title}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Title
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">
+          <div className="mb-2">
+            <p className="text-base">
               {oneJob?.city}, {oneJob?.state}
             </p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Location
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">{oneJob?.pay}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.pay}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Hourly Wage (in KES)
             </p>
           </div>
 
-          <div>
-            <p className="text-lg">{oneJob?.description}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+          <div className="mb-2">
+            <p className="text-base">{oneJob?.description}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Job Description
             </p>
           </div>
           <div className="mt-5">
             <p className="font-semibold">Contact the Employer</p>
-            <p className="text-lg">{oneJob?.email}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-base">{oneJob?.email}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Employer mail
             </p>
           </div>
 
           <div>
-            <p className="text-lg">{oneJob?.phone}</p>
-            <p className="text-sm text-[#282828] font-light leading-tight">
+            <p className="text-base">{oneJob?.phone}</p>
+            <p className="text-xs text-[#282828] font-light leading-tight">
               Employer phone number
             </p>
           </div>
@@ -179,6 +195,7 @@ const JobDescription = () => {
               Apply For This Job
             </button>
           )}
+          <p>{status}</p>
 
           <Modal
             isOpen={modalIsOpen}
@@ -237,7 +254,10 @@ const JobDescription = () => {
                 <Form className="flex flex-col">
                   <section className="">
                     <div className="flex flex-col">
-                      <label htmlFor="contact" className="text-sm pb-1 mt-5">
+                      <label
+                        htmlFor="contact"
+                        className="text-sm pb-1 mt-5 font-semibold"
+                      >
                         Contact Information
                       </label>
                       <Field
@@ -256,7 +276,10 @@ const JobDescription = () => {
                     </div>
 
                     <div className="flex flex-col">
-                      <label htmlFor="experience" className="text-sm pb-1 mt-5">
+                      <label
+                        htmlFor="experience"
+                        className="text-sm pb-1 mt-5 font-semibold"
+                      >
                         Experience
                       </label>
                       <Field
