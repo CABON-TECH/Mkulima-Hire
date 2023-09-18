@@ -43,6 +43,8 @@ const getJobById = async (req, res, next) => {
 };
 const applicationSubmission = async (req, res) => {
     try {
+      //const userId = req.user._id;
+      
       // Extract job application data from the request body
       const { name, contactInfo, experience, userId } = req.body;
   
@@ -52,9 +54,10 @@ const applicationSubmission = async (req, res) => {
       if (!job) {
         return res.status(404).json({ message: 'Job not found' });
       }
+      //const workerUserId = req.user._id;
   
       // Add the job application to the job's applications array
-      job.applications.push({ name, contactInfo, experience, userId });
+      job.applications.push({ name, contactInfo, experience, userId  });
   
       // Save the updated job
       await job.save();
@@ -82,11 +85,11 @@ const applicationSubmission = async (req, res) => {
       // Retrieve the applications associated with the job listing
       const applications = job.applications;
 
-      const workerDetails = await Worker.find({ userId: { $in: applications.map(app => app.userId) } });
+      //const workerDetails = await Worker.find({ userId: { $in: applications.map(app => app.userId) } });
   
       res.status(200).json({
         success: true,
-        data: { applications, workerDetails },
+        data: { applications},
       });
     } catch (error) {
       console.error(error);

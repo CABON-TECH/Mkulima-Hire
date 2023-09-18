@@ -49,6 +49,7 @@ const jobSchema = new mongoose.Schema({
           contactInfo: String,
           experience: String,
           location: String,
+          userId: String,
           
           
         },

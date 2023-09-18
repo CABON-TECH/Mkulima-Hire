@@ -2,6 +2,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/userModel');
 const asyncHandler = require('express-async-handler');
 const bcrypt = require('bcryptjs');
+const uuid = require('uuid');
+
 
 
 //genrate token
@@ -30,7 +32,10 @@ const registerUser = asyncHandler(async (req, res) => {
     const selectedRole = req.body.role;
     const role = selectedRole === 'farmer' ? 'farmer' : 'worker';
 
+    const userId = uuid.v4();
+
     const user = await User.create({
+        
         name,
         email,
         password: hashedPassword,
