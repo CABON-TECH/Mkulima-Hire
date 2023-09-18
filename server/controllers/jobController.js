@@ -43,11 +43,10 @@ const getJobById = async (req, res, next) => {
 };
 const applicationSubmission = async (req, res) => {
     try {
-      //const userId = req.user._id;
+      const userId = req.userIdd;
       
       // Extract job application data from the request body
-      //const { name, contactInfo, experience, userId } = req.body;
-      const { userId, name, contactInfo, experience } = req.body;
+      const { name, contactInfo, experience, /*userId*/ } = req.body;
   
       // Find the job by jobId
       const job = await Job.findById(req.params.jobId);
@@ -63,9 +62,8 @@ const applicationSubmission = async (req, res) => {
         userId,
         name,
         contactInfo,
-        experience,
+        experience
       });
-  
   
       // Save the updated job
       await job.save();

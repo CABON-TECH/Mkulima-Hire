@@ -38,19 +38,21 @@ const jobSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-   
+    user: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true
+    },
     applications: [
         {
-          userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'User', // Reference to the User model
-            required: true
-          },
           name: String,
           contactInfo: String,
           experience: String,
-          // Other application properties...
-        }
+          location: String,
+          userId: String,
+          
+          
+        },
       ],
       status: {
         type: String,
