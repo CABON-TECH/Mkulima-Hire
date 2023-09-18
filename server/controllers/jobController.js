@@ -41,10 +41,10 @@ const getJobById = async (req, res, next) => {
 };
 const applicationSubmission = async (req, res) => {
   try {
-    const userId = req.userId;
+    // const userId = req.userId;
 
     // Extract job application data from the request body
-    const { name, contactInfo, experience /*userId*/ } = req.body;
+    const { name, contactInfo, experience, userId } = req.body;
 
     // Find the job by jobId
     const job = await Job.findById(req.params.jobId);
@@ -56,48 +56,6 @@ const applicationSubmission = async (req, res) => {
 
     // Add the job application to the job's applications array
     job.applications.push({ name, contactInfo, experience, userId });
-
-    // Save the updated job
-    await job.save();
-
-    // Return a success response
-    res.status(201).json({ message: "Job application submitted successfully" });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server error" });
-  }
-};
-const applications = async (req, res) => {
-  try {
-    // Get the jobId from the request parameters
-    const { jobId } = req.params;
-
-    // Find the job listing by jobId
-    const job = await Job.findById(jobId).populate("applications.user");
-
-    if (!job) {
-      return res.status(404).json({ message: "Job not found" });
-    }
-
-    // Extract job application data from the request body
-    const { name, contactInfo, experience /*userId*/ } = req.body;
-
-    // Find the job by jobId
-    const job = await Job.findById(req.params.jobId);
-
-    if (!job) {
-      return res.status(404).json({ message: "Job not found" });
-    }
-    //const workerUserId = req.user._id;
-
-    // Add the job application to the job's applications array
-    //job.applications.push({ name, contactInfo, experience, userId  });
-    job.applications.push({
-      userId,
-      name,
-      contactInfo,
-      experience,
-    });
 
     // Save the updated job
     await job.save();
