@@ -38,22 +38,17 @@ const jobSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    user: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-        required: true
-    },
-    applications: [
-        {
-          name: String,
-          contactInfo: String,
-          experience: String,
-          location: String,
-          userId: String,
-          
-          
-        },
-      ],
+   
+   applications: [
+    {
+      userId:String,
+      name: String,
+      contactInfo: String,
+      experience: String,
+
+      // Other application properties...
+    }
+  ],
       status: {
         type: String,
         enum: ['approved', 'pending', 'rejected'],
