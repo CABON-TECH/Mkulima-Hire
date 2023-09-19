@@ -24,23 +24,11 @@ connectDB();
 
 app.use(express.json());
 
-/*const corsOptions = {
+const corsOptions = {
   origin: "https://mkulimahire.vercel.app",
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   credentials: true, // Enable cookies, authentication headers, etc.
   optionsSuccessStatus: 204, // Respond with a 204 status for preflight requests
-};*/
-const allowedOrigins = ['https://mkulimahire.vercel.app'];
-
-const corsOptions = {
-  origin: function (origin, callback) {
-    if (allowedOrigins.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true, // if you need to send credentials like cookies
 };
 
 app.use(cors(corsOptions));
