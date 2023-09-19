@@ -30,7 +30,15 @@ const Overview = () => {
     }
   }, [user, API_URL]);
 
-  const totalApplicationsLength = null;
+  let totalApplicationsLength = 0;
+
+  for (const item of jobOpenings) {
+    for (const application of item.applications) {
+      if (application?.userId === user?._id) {
+        totalApplicationsLength++;
+      }
+    }
+  }
 
   return (
     <div className="sm:pl-60 pl-2 py-5 pb-24 w-full pr-2 sm:pr-10">

@@ -9,6 +9,7 @@ import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { capitalize } from "../../../features/utils/Helpers";
 import { formatDateDifference } from "../../../features/utils/Helpers";
 import { truncateString } from "../../../features/utils/Helpers";
+import no_data from "../../../assets/no-data.svg";
 
 const Jobs = () => {
   const user = useSelector((state) => state?.auth.user);
@@ -32,13 +33,10 @@ const Jobs = () => {
     }
   }, [user, API_URL]);
 
-  console.log(jobOpenings);
-  console.log(user);
-
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
-    return apps?.some((item) => parseInt(item._id) === userId);
+    return apps?.some((item) => parseInt(item.userId) === userId);
   }
 
   return (
@@ -61,6 +59,15 @@ const Jobs = () => {
         />
       </div>
       {loading && <LoadingSpinner />}
+
+      {jobOpenings.length == 0 && !loading && (
+        <div className="flex flex-col items-center mt-10">
+          <img src={no_data} alt="empty" className="sm:w-80 w-40" />
+          <p className="text-[#74c116] font-semibold text-lg pt-2">
+            There are currently no available job openings
+          </p>
+        </div>
+      )}
 
       <div className="">
         {jobOpenings

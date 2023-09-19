@@ -10,10 +10,11 @@ import Modal from "react-modal";
 import { formatDateDifference } from "../../../features/utils/Helpers";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
-import io from "socket.io-client";
-const socket = io.connect("http://localhost:5001");
+// import io from "socket.io-client";
+// const socket = io.connect("http://localhost:5001");
 
 const applySchema = Yup.object().shape({
+  name: Yup.string().required("Please provide your name"),
   contact: Yup.string().required("Please provide contact information"),
   experience: Yup.string().required("Please provide experience details"),
 });
@@ -23,12 +24,13 @@ const JobDescription = () => {
   const API_URL = import.meta.env.VITE_API_URL;
 
   const [email, setEmail] = useState(user?.email);
+  const [workerName, setWorkerName] = useState(user?.name);
   const [jobOpenings, setJobOpenings] = useState([]);
   const [loading, setLoading] = useState(true);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [applyModalIsOpen, setApplyModalIsOpen] = useState(false);
-  const [status, setStatus] = useState("");
+  // const [status, setStatus] = useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -48,12 +50,12 @@ const JobDescription = () => {
   const { _id } = useParams();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    socket.on("receive_status", (data) => {
-      setStatus(data.message);
-    }),
-      [socket];
-  });
+  // useEffect(() => {
+  //   socket.on("receive_status", (data) => {
+  //     setStatus(data.message);
+  //   }),
+  //     [socket];
+  // });
 
   useEffect(() => {
     try {
@@ -69,12 +71,11 @@ const JobDescription = () => {
     }
   }, [user, API_URL]);
   const oneJob = jobOpenings?.find((obj) => obj._id === _id);
-  console.log(oneJob);
 
   function checkApplyStatus(job) {
     const userId = parseInt(user?._id);
     const apps = job?.applications;
-    return apps?.some((item) => parseInt(item._id) === userId);
+    return apps?.some((item) => parseInt(item.userId) === userId);
   }
 
   const handleApply = async (values) => {
@@ -86,6 +87,8 @@ const JobDescription = () => {
       await axios.post(
         API_URL + `jobs/${oneJob?._id}/apply`,
         {
+          userId: user?._id,
+          name: workerName,
           contactInfo: email,
           experience: values.experience,
         },
@@ -244,6 +247,7 @@ const JobDescription = () => {
           >
             <Formik
               initialValues={{
+                name: workerName,
                 contact: email,
                 experience: "",
               }}
@@ -253,6 +257,28 @@ const JobDescription = () => {
               {(formik) => (
                 <Form className="flex flex-col">
                   <section className="">
+                    <div className="flex flex-col">
+                      <label
+                        htmlFor="contact"
+                        className="text-sm pb-1 mt-5 font-semibold"
+                      >
+                        Name
+                      </label>
+                      <Field
+                        name="name"
+                        className="focus:border-2 border-[1px] rounded-lg p-3 bg-transparent border-[#2b2b39] focus:outline-none"
+                        placeholder="Your Name"
+                        onChange={(e) => setWorkerName(e.target.value)}
+                        value={workerName}
+                      />
+
+                      <ErrorMessage
+                        name="contact"
+                        component="div"
+                        className="text-red-700 text-sm"
+                      />
+                    </div>
+
                     <div className="flex flex-col">
                       <label
                         htmlFor="contact"

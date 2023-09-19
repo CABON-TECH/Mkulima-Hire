@@ -7,6 +7,7 @@ import { ToastContainer, toast } from "react-toastify";
 import LoadingSpinner from "../../../components/LoadingSpinner/LoadingSpinner";
 import { formatDateDifference } from "../../../features/utils/Helpers";
 import { capitalize } from "../../../features/utils/Helpers";
+import no_data from "../../../assets/no-data.svg";
 
 const Jobs = () => {
   const user = useSelector((state) => state?.auth.user);
@@ -54,6 +55,15 @@ const Jobs = () => {
         </p>
       )}
       {loading && <LoadingSpinner />}
+
+      {filteredJobs.length == 0 && !loading && (
+        <div className="flex flex-col items-center mt-10">
+          <img src={no_data} alt="empty" className="sm:w-80 w-40" />
+          <p className="text-[#74c116] font-semibold text-lg pt-2">
+            You have not created any jobs yet
+          </p>
+        </div>
+      )}
 
       <div className="">
         {filteredJobs?.map((job) => (
