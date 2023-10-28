@@ -14,7 +14,7 @@ interface LoginUser {
 }
 
 //get user from local storage
-const user = localStorage.getItem('user') || '';
+const user = JSON.parse(localStorage.getItem('user')!);
 
 //initial state
 const initialState = {

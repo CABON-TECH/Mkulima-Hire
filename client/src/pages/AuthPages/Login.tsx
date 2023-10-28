@@ -49,9 +49,16 @@ const LogIn = () => {
           password: loginPassword,
         }),
       );
-      toast.success('Log In successful');
-      // Store user data in localStorage
-      localStorage.setItem('user', JSON.stringify(response.payload));
+      if (
+        response.payload.role == 'worker' ||
+        response.payload.role == 'farmer'
+      ) {
+        toast.success('Log In successful');
+        // Store user data in localStorage
+        localStorage.setItem('user', JSON.stringify(response.payload));
+      } else {
+        toast.error('Error logging in');
+      }
 
       if (response.payload.role == 'worker') {
         navigate('/worker-dashboard');
@@ -61,7 +68,6 @@ const LogIn = () => {
       }
       setIsButtonDisabled(false);
     } catch (error) {
-      toast.error('Error signing up');
       setIsButtonDisabled(false);
     }
   };

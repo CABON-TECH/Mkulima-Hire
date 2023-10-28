@@ -7,14 +7,12 @@ import { toast } from 'react-toastify';
 import { useTabContext } from '../../features/hooks/TabContext';
 import { RootState } from '../../features/auth/AuthState';
 import { Job } from '../../features/interfaces/JobInterface';
-// import { RootState } from '../../features/auth/AuthState';
 
 const Overview = () => {
   const user = useSelector((state: RootState) => state?.auth.user);
 
   const [jobOpenings, setJobOpenings] = useState<Job[]>([]);
   const [loading, setLoading] = useState(true);
-  console.log(jobOpenings);
 
   const { setActiveTab } = useTabContext();
 
